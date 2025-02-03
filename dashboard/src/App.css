@@ -1,3 +1,34 @@
-.title {
-    text-align: center;
+.book {
+    display: flex;
+    background-color: bisque;
+    border: 4px dotted black;
+    padding: 15px;
+    width: 60vw;
+    margin: auto;
+    flex-direction: column;
+}
+
+img {
+    width: 250px;
+}
+
+.context {
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.info {
+    display: flex;
+}
+
+.reviews {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+p {
+    margin: 0;
 }
