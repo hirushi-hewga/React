@@ -1,20 +1,15 @@
 import './App.css';
-import MusicBand from './Components/MusicBand/MusicBand'
-import CulinaryRecipe from './Components/CulinaryRecipe/CulinaryRecipe'
-import ShakespeareBibliography from './Components/ShakespeareBibliography/ShakespeareBibliography';
-import Movie from './Components/Movie/Movie';
-import CurrentTime from './Components/CurrentTime/CurrentTime';
-import Pet from './Components/Pet/Pet';
+import * as Main from './Components/main/MainComponents'
 
 const App = () => {
   return (
     <>
-      <MusicBand bgColor="lightgreen" />
-      <CulinaryRecipe bgColor="cyan" />
-      <ShakespeareBibliography bgColor="lightgreen" />
-      <Movie bgColor="cyan" />
-      <CurrentTime bgColor="lightgreen" />
-      <Pet bgColor="cyan" />
+      <Main.MusicBand bgColor="lightgreen" />
+      <Main.CulinaryRecipe bgColor="cyan" />
+      <Main.ShakespeareBibliography bgColor="lightblue" />
+      <Main.Movie bgColor="yellowgreen" />
+      <Main.CurrentTime bgColor="turquoise" />
+      <Main.Pet bgColor="salmon" />
     </>
   );
 }

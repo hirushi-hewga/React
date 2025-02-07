@@ -1,0 +1,50 @@
+.red { background-color: red; }  
+.lightgreen { background-color: lightgreen; }  
+.blue { background-color: blue; }  
+.orange { background-color: orange; }  
+.purple { background-color: purple; }  
+.yellow { background-color: yellow; }  
+.cyan { background-color: cyan; }  
+.magenta { background-color: magenta; }  
+.lightblue { background-color: lightblue; }  
+.lime { background-color: lime; }  
+.green { background-color: green; }  
+.brown { background-color: brown; }  
+.pink { background-color: pink; }  
+.indigo { background-color: indigo; }  
+.yellowgreen { background-color: yellowgreen; }  
+.darkred { background-color: darkred; }  
+.turquoise { background-color: turquoise; }  
+.violet { background-color: violet; }  
+.grey { background-color: grey; }  
+.gray { background-color: gray; }  
+.salmon { background-color: salmon; }  
+.beige { background-color: beige; }
+
+.container {
+    width: 85vw;
+    margin: auto;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.albums {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.recipe {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+img {
+    width: 250px;
+    margin: auto;
+}
+
+h3 {
+    margin: 0;
+}
