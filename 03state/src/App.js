@@ -78,7 +78,7 @@ const App = () => {
   useEffect(() => {
     const value = localStorage.getItem("counterValue")
     if (value) {
-      setCounterValue(value)
+      setCounterValue(Number(value))
     }
   }, [])
 

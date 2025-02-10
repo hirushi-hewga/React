@@ -6,8 +6,10 @@
     margin: 15px;
 }
 
-.counter {
-    width: 100px;
+.value {
+    display: flex;
+    width: 60px;
     height: 60px;
-    margin: 15px;
+    align-items: center;
+    justify-content: center;
 }

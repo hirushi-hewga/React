@@ -11,7 +11,9 @@ const Counter = ({ value, changeValue }) => {
         <div class="counterContainer">
             <div>
                 <input id='value' value={value} hidden></input>
-                <button class="counter">{value}</button>
+                <div class="value">
+                    <label class="counter">{value}</label>
+                </div>
             </div>
             <div>
                 <div>
