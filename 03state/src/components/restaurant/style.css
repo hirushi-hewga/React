@@ -1,0 +1,23 @@
+.restaurantContainer {
+    width: 100%;
+    display: flex;
+    background-color: bisque;
+    margin: 15px;
+}
+
+img {
+    width: 40vw;
+    margin: 25px;
+}
+
+.restaurantItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 40px;
+    margin: 15px;
+}
+
+p,h3 {
+    margin: 0;
+}

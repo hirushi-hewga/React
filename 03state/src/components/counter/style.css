@@ -1,0 +1,13 @@
+.counterContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: bisque;
+    margin: 15px;
+}
+
+.counter {
+    width: 100px;
+    height: 60px;
+    margin: 15px;
+}
