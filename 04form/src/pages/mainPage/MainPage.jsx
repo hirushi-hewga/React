@@ -3,16 +3,18 @@ import { useLocation } from 'react-router-dom'
 import './MainPage.css'
 
 const MainPage = () => {
-    const showUsers = () => {
-        document.getElementById("usersTableContainer").hidden = false
-    }
-
     const location = useLocation()
     const email = location.state?.user?.email || ''
 
-
     const users = localStorage.getItem("users")
     const array = JSON.parse(users)
+
+    const showUsers = () => {
+        if (users) {
+            document.getElementById("usersTableContainer").hidden = false
+        }
+    }
+
     return (
         <Container>
             <h1>Hello {email}</h1>
@@ -30,7 +32,7 @@ const MainPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {array.map((user) => (
+                        {array?.map((user) => (
                             <TableRow
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
