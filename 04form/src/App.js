@@ -1,5 +1,5 @@
 import DefaultLayout from './components/layouts/DefaultLayout'
-import RegisterPage from './pages/registerPage/RegisterPage'
+import AddUsersPage from './pages/registerPage/AddUsersPage'
 import NotFoundPage from './pages/notFoundPage/NotFoundPage'
 import LoginPage from './pages/loginPage/LoginPage'
 import MainPage from './pages/mainPage/MainPage'
@@ -12,9 +12,9 @@ function App() {
       <Routes>
         <Route path="/" element={ <DefaultLayout/> }>
           <Route index element={ <MainPage/> } />
-          <Route path="/register" element={ <RegisterPage /> } />
-          <Route path="/login" element={ <LoginPage /> } />
-          <Route path="*" element={ <NotFoundPage /> } />
+          <Route path="/register" element={ <AddUsersPage/> } />
+          <Route path="/login" element={ <LoginPage/> } />
+          <Route path="*" element={ <NotFoundPage/> } />
         </Route>
       </Routes>
     </>
