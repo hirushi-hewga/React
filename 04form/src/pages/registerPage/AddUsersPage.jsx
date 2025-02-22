@@ -1,5 +1,6 @@
 import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { FormError } from '../../components/errors/Errors'
+import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import './AddUsersPage.css'
 import * as Yup from 'yup'
@@ -12,12 +13,13 @@ const RegisterPage = () => {
             localStorage.setItem("users", JSON.stringify([values]))
         } else {
             const array = JSON.parse(users)
-            array.push(values)
+            array.push({...values, id: array.at(-1).id + 1})
             localStorage.setItem("users", JSON.stringify(array))
         }
     }
 
     const initValues = {
+        id: 0,
         firstName: "",
         lastName: "",
         email: "",
@@ -142,6 +144,8 @@ const RegisterPage = () => {
             <Box className="form-control">
                 <Button type='submit' variant='contained' fullWidth>Add user</Button>
             </Box>
+
+            <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/login">Login</Link>
         </Box>
     )
 }

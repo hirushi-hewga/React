@@ -1,9 +1,9 @@
 import { FormError } from '../../components/errors/Errors'
 import { Box, Button, TextField } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import './LoginPage.css'
-import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -45,42 +45,43 @@ const LoginPage = () => {
 
 
     return (
-        <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
-            <Box className="form-control">
-                <TextField
-                  id="email"
-                  name="email"
-                  label="Email"
-                  variant="filled"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                  onBlur={formik.handleBlur}
-                />
+            <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
+                <Box className="form-control">
+                    <TextField
+                      id="email"
+                      name="email"
+                      label="Email"
+                      variant="filled"
+                      fullWidth
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                      onBlur={formik.handleBlur}
+                    />
+                </Box>
+                {formik.touched.email && formik.errors.email ? (
+                    <FormError text={formik.errors.email} />
+                ) : null}
+                <Box className="form-control">
+                    <TextField
+                      type="password"
+                      id="password"
+                      name="password"
+                      label="Password"
+                      variant="filled"
+                      fullWidth
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                      onBlur={formik.handleBlur}
+                    />
+                </Box>
+                {formik.touched.password && formik.errors.password ? (
+                    <FormError text={formik.errors.password} />
+                ) : null}
+                <Box className="form-control">
+                    <Button type='submit' variant='contained' fullWidth>Login</Button>
+                </Box>
+                <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/register">Register</Link>
             </Box>
-            {formik.touched.email && formik.errors.email ? (
-                <FormError text={formik.errors.email} />
-            ) : null}
-            <Box className="form-control">
-                <TextField
-                  type="password"
-                  id="password"
-                  name="password"
-                  label="Password"
-                  variant="filled"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  onBlur={formik.handleBlur}
-                />
-            </Box>
-            {formik.touched.password && formik.errors.password ? (
-                <FormError text={formik.errors.password} />
-            ) : null}
-            <Box className="form-control">
-                <Button type='submit' variant='contained' fullWidth>Login</Button>
-            </Box>
-        </Box>
     )
 }
 
