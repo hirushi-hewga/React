@@ -1,32 +1,30 @@
 import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { FormError } from '../../components/errors/Errors'
+import { useParams } from "react-router-dom"
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
-import './AddUsersPage.css'
 import * as Yup from 'yup'
 
-const RegisterPage = () => {
+const EditUserPage = () => {
+    const json = localStorage.getItem("users")
+    const users = JSON.parse(json)
+    const { id } = useParams()
+    const index = users.findIndex(u => u.id == id)
+    const user = users[index]
+
     const formHandler = (values) => {
-        delete values.confirmPassword
-        const users = localStorage.getItem("users")
-        if (!users) {
-            localStorage.setItem("users", JSON.stringify([values]))
-        } else {
-            const array = JSON.parse(users)
-            array.push({...values, id: array.at(-1).id + 1})
-            localStorage.setItem("users", JSON.stringify(array))
-        }
+        users[index] = values
+        localStorage.setItem("users", JSON.stringify(users))
         window.location = "/"
     }
 
     const initValues = {
-        id: 0,
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        role: ""
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+        role: user.role
     }
 
     const yupValidationScheme = Yup.object({
@@ -34,7 +32,6 @@ const RegisterPage = () => {
         lastName: Yup.string().required("обов'язково").max(50, "Максимум 50 символів"),
         email: Yup.string().required("Пошта обов'язкова").email("Невірний формат пошти"),
         password: Yup.string().required("Пароль обов'язковий").min(8, "Пароль повинен містити не менше 8 символів"),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], "Паролі не збігаються"),
         role: Yup.string().oneOf(["user", "admin"]).required("Роль обов'язкова")
     })
 
@@ -45,7 +42,8 @@ const RegisterPage = () => {
     })
 
     return (
-        <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
+        <>
+            <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
             <Box className="form-control">
                 <TextField
                   id="firstName"
@@ -93,7 +91,6 @@ const RegisterPage = () => {
             ) : null}
             <Box className="form-control">
                 <TextField
-                  type="password"
                   id="password"
                   name="password"
                   label="Password"
@@ -106,22 +103,6 @@ const RegisterPage = () => {
             </Box>
             {formik.touched.password && formik.errors.password ? (
                 <FormError text={formik.errors.password} />
-            ) : null}
-            <Box className="form-control">
-                <TextField
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  label="Confirm password"
-                  variant="filled"
-                  fullWidth
-                  onChange={formik.handleChange}
-                  value={formik.values.confirmPassword}
-                  onBlur={formik.handleBlur}
-                />
-            </Box>
-            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                <FormError text={formik.errors.confirmPassword} />
             ) : null}
 
             
@@ -143,12 +124,11 @@ const RegisterPage = () => {
             
             
             <Box className="form-control">
-                <Button type='submit' variant='contained' fullWidth>Add user</Button>
+                <Button type='submit' variant='contained' fullWidth>Save</Button>
             </Box>
-
-            <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/login">Login</Link>
         </Box>
+        </>
     )
 }
 
-export default RegisterPage
+export default EditUserPage

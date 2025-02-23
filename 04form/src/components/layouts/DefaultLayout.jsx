@@ -1,6 +1,8 @@
 import { Container } from '@mui/material'
 import { Outlet } from 'react-router-dom'
 import Navbar from "../navbar/Navbar"
+import Footer from '../footer/Footer'
+import './DefaultLayout.css'
 
 const DefaultLayout = () => {
     return (
@@ -9,6 +11,7 @@ const DefaultLayout = () => {
             <Container>
                 <Outlet />
             </Container>
+            <Footer />
         </>
     )
 }

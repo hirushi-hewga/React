@@ -14,6 +14,11 @@ const ShowUsersPage = () => {
         }
     }, [])
 
+    function deleteUser(id) {
+        setUsers(users.filter(user => user.id !== id))
+        localStorage.setItem("users", JSON.stringify(users))
+    }
+
     const showUsers = () => {
         if (users) {
             document.getElementById("usersTableContainer").hidden = false
@@ -23,6 +28,9 @@ const ShowUsersPage = () => {
     return (
         <>
             <Button variant='contained' onClick={showUsers}>Show users</Button>
+            <Link style={{"marginLeft": "10px"}} to="/addUser">
+                <Button variant='contained'>Add User</Button>
+            </Link>
             <TableContainer id="usersTableContainer" hidden component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -55,7 +63,7 @@ const ShowUsersPage = () => {
                                     </Link>
                                 </TableCell>
                                 <TableCell align="left">
-                                    <Button variant='contained'>Delete</Button>
+                                    <Button onClick={() => {deleteUser(id)}} variant='contained'>Delete</Button>
                                 </TableCell>
                             </TableRow>
                         ))}
