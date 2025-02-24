@@ -1,13 +1,16 @@
 import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { FormError } from '../../components/errors/Errors'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import './AddUsersPage.css'
 import * as Yup from 'yup'
 
 const RegisterPage = () => {
+    const navigate = useNavigate()
+
     const formHandler = (values) => {
         delete values.confirmPassword
+        values.role = "user"
         const users = localStorage.getItem("users")
         if (!users) {
             localStorage.setItem("users", JSON.stringify([values]))
@@ -16,7 +19,7 @@ const RegisterPage = () => {
             array.push({...values, id: array.at(-1).id + 1})
             localStorage.setItem("users", JSON.stringify(array))
         }
-        window.location = "/"
+        navigate("/users")
     }
 
     const initValues = {
@@ -26,7 +29,7 @@ const RegisterPage = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        role: ""
+        image: ""
     }
 
     const yupValidationScheme = Yup.object({
@@ -34,8 +37,7 @@ const RegisterPage = () => {
         lastName: Yup.string().required("обов'язково").max(50, "Максимум 50 символів"),
         email: Yup.string().required("Пошта обов'язкова").email("Невірний формат пошти"),
         password: Yup.string().required("Пароль обов'язковий").min(8, "Пароль повинен містити не менше 8 символів"),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], "Паролі не збігаються"),
-        role: Yup.string().oneOf(["user", "admin"]).required("Роль обов'язкова")
+        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], "Паролі не збігаються")
     })
 
     const formik = useFormik({
@@ -123,24 +125,18 @@ const RegisterPage = () => {
             {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                 <FormError text={formik.errors.confirmPassword} />
             ) : null}
-
-            
             <Box className="form-control">
-                <FormLabel id="demo-row-radio-buttons-group-label">Role</FormLabel>
-                <RadioGroup
-                  row aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="role"
+                <TextField
+                  id="image"
+                  name="image"
+                  label="Image"
+                  variant="filled"
+                  fullWidth
                   onChange={formik.handleChange}
-                  value={formik.values.role}
-                  onBlur={formik.handleBlur}>
-                    <FormControlLabel value="user" control={<Radio />} label="user" />
-                    <FormControlLabel value="admin" control={<Radio />} label="admin" />
-                </RadioGroup>
+                  value={formik.values.image}
+                  onBlur={formik.handleBlur}
+                />
             </Box>
-            {formik.touched.role && formik.errors.role ? (
-                <FormError text={formik.errors.role} />
-            ) : null}
-            
             
             <Box className="form-control">
                 <Button type='submit' variant='contained' fullWidth>Add user</Button>

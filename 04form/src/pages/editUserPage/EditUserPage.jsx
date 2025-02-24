@@ -1,30 +1,68 @@
 import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { FormError } from '../../components/errors/Errors'
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useEffect } from 'react'
 
-const EditUserPage = () => {
-    const json = localStorage.getItem("users")
-    const users = JSON.parse(json)
-    const { id } = useParams()
-    const index = users.findIndex(u => u.id == id)
-    const user = users[index]
+const EditUserPage = ({ isEdit = false }) => {
+    const navigate = useNavigate()
+    const params = useParams()
 
-    const formHandler = (values) => {
-        users[index] = values
+    useEffect(() => {
+        if (isEdit) {
+            const localData = localStorage.getItem("users")
+            if (!localData) {
+                navigate("/users")
+            }
+            
+            const { id } = params
+            const users = JSON.parse(localData)
+            const user = users.find(u => u.id == id)
+            if (!user) {
+                navigate("/users")
+            }
+
+            formik.setValues(user)
+        }
+    }, [])
+
+    const formCreateHandler = (values) => {
+        const localData = localStorage.getItem("users")
+        if (!localData) {
+            localStorage.setItem("users", JSON.stringify([{...values, id: 1}]))
+        } else {
+            const users = JSON.parse(localData)
+            values.id = users[users.length - 1].id + 1
+            users.push(values)
+            localStorage.setItem("users", JSON.stringify(users))
+        }
+        navigate("/users")
+    }
+
+    const formEditHandler = (values) => {
+        const localData = localStorage.getItem("users")
+        if(!localData) {
+            navigate("/users")
+        }
+
+        const users = JSON.parse(localData)
+        const userIndex = users.findIndex(u => u.id = values.id)
+        users[userIndex] = {...values}
         localStorage.setItem("users", JSON.stringify(users))
-        window.location = "/"
+
+        navigate("/users")
     }
 
     const initValues = {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        password: user.password,
-        role: user.role
+        id: 0,
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        role: "",
+        image: ""
     }
 
     const yupValidationScheme = Yup.object({
@@ -37,13 +75,16 @@ const EditUserPage = () => {
 
     const formik = useFormik({
         initialValues: initValues,
-        onSubmit: formHandler,
+        onSubmit: isEdit ? formEditHandler : formCreateHandler,
         validationSchema: yupValidationScheme
     })
 
     return (
         <>
             <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
+            <Box sx={{textAlign: "center"}}>
+                <h1>{ isEdit ? "Edit user" : "Create user" }</h1>
+            </Box>
             <Box className="form-control">
                 <TextField
                   id="firstName"
@@ -104,6 +145,18 @@ const EditUserPage = () => {
             {formik.touched.password && formik.errors.password ? (
                 <FormError text={formik.errors.password} />
             ) : null}
+            <Box className="form-control">
+                <TextField
+                  id="image"
+                  name="image"
+                  label="Image"
+                  variant="filled"
+                  fullWidth
+                  onChange={formik.handleChange}
+                  value={formik.values.image}
+                  onBlur={formik.handleBlur}
+                />
+            </Box>
 
             
             <Box className="form-control">
@@ -124,7 +177,7 @@ const EditUserPage = () => {
             
             
             <Box className="form-control">
-                <Button type='submit' variant='contained' fullWidth>Save</Button>
+                <Button type='submit' variant='contained' fullWidth>{ isEdit ? "Save" : "Create" }</Button>
             </Box>
         </Box>
         </>

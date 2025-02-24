@@ -1,8 +1,10 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const ShowUsersPage = () => {
+const ShowUsersPage = ({ isShow = false }) => {
     const [users, setUsers] = useState([])
     
     const json = localStorage.getItem("users")
@@ -27,9 +29,12 @@ const ShowUsersPage = () => {
 
     return (
         <>
+            <Box>
+                <h1>Users</h1>
+            </Box>
             <Button variant='contained' onClick={showUsers}>Show users</Button>
-            <Link style={{"marginLeft": "10px"}} to="/addUser">
-                <Button variant='contained'>Add User</Button>
+            <Link style={{"marginLeft": "10px"}} to="user">
+                <Button variant='contained'>Create User</Button>
             </Link>
             <TableContainer id="usersTableContainer" hidden component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -58,12 +63,12 @@ const ShowUsersPage = () => {
                                 <TableCell align="center">{email}</TableCell>
                                 <TableCell align="center">{role}</TableCell>
                                 <TableCell align="right">
-                                    <Link to={`editUser/${id}`}>
-                                        <Button variant='contained'>Edit</Button>
+                                    <Link to={`user/${id}`}>
+                                        <EditIcon />
                                     </Link>
                                 </TableCell>
                                 <TableCell align="left">
-                                    <Button onClick={() => {deleteUser(id)}} variant='contained'>Delete</Button>
+                                    <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteUser(id)}} />
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -10,7 +10,6 @@ const MainPage = () => {
     return (
         <Container>
             <h1>Hello {email}</h1>
-            <ShowUsersPage />
         </Container>
     )
 }

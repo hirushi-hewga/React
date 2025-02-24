@@ -1,6 +1,7 @@
 .navbar {
     justify-content: space-evenly;
     background-color: darkcyan;
+    align-items: center;
     display: flex;
     padding: 20px;
 }
@@ -10,4 +11,16 @@ a {
     font-weight: bold;
     font-size: large;
     color: black;
+}
+
+.navlinks {
+    justify-content: space-evenly;
+    display: flex;
+    flex-grow: 8;
+}
+
+.navauth {
+    justify-content: right;
+    display: flex;
+    flex-grow: 1;
 }

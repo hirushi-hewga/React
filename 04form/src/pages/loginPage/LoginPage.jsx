@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import './LoginPage.css'
 
-const LoginPage = () => {
+const LoginPage = ({ callBack }) => {
     const navigate = useNavigate()
 
     const formHandler = (values) => {
@@ -15,6 +15,7 @@ const LoginPage = () => {
         if (array) {
             array.forEach(item => {
                 if (item.email === values.email && item.password === values.password) {
+                    callBack(item.id)
                     navigate('/', {state: {user: values}})
                     isValid = true
                 }
