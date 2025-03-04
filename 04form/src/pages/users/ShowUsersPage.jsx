@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const ShowUsersPage = ({ isShow = false }) => {
+const ShowUsersPage = () => {
     const [users, setUsers] = useState([])
     
     const json = localStorage.getItem("users")

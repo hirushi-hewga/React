@@ -1,12 +1,16 @@
+import { AuthContext } from '../../components/provoders/AuthProvider'
 import { FormError } from '../../components/errors/Errors'
 import { Box, Button, TextField } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import './LoginPage.css'
 
-const LoginPage = ({ callBack }) => {
+const LoginPage = () => {
     const navigate = useNavigate()
+
+    const { login } = useContext(AuthContext)
 
     const formHandler = (values) => {
         const users = localStorage.getItem("users")
@@ -15,7 +19,8 @@ const LoginPage = ({ callBack }) => {
         if (array) {
             array.forEach(item => {
                 if (item.email === values.email && item.password === values.password) {
-                    callBack(item.id)
+                    localStorage.setItem("auth", JSON.stringify(item))
+                    login()
                     navigate('/', {state: {user: values}})
                     isValid = true
                 }

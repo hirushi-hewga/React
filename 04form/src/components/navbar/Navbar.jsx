@@ -1,16 +1,15 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { AuthContext } from '../provoders/AuthProvider';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
-import { useEffect, useState } from 'react';
 import './Navbar.css'
 
-const Navbar = ({ isLoggedIn = false, userId = null, onLogout }) => {
-    const json = localStorage.getItem("users")
-    const userImage = () => {
-        if (isLoggedIn) {
-            const array = JSON.parse(json)
-            return array.find(u => u.id == userId).image
-        }
+const Navbar = () => {
+    const { auth, logout } = useContext(AuthContext)
+    
+    const logoutHandler = () => {
+        logout()
     }
 
     function isValidUrl(url) {
@@ -26,16 +25,21 @@ const Navbar = ({ isLoggedIn = false, userId = null, onLogout }) => {
         <div className='navbar'>
             <div className='navlinks'>
                 <Link to="/">MainPage</Link>
-                <Link to="/users">Users</Link>
+                { ( auth?.role === "admin" ) && (
+                    <>
+                        <Link to="/users">Users</Link>
+                        <Link to="/roles">Roles</Link>
+                    </>
+                )}
             </div>
-                { !isLoggedIn ? <div className='navauth'> <Link to="/register">
-                    <Button style={{margin: "0 15px 0 0"}} variant='contained'>Register</Button>
-                </Link>
-                <Link to="/login">
-                    <Button variant='contained'>Login</Button>
-                </Link> </div> : <div className='navauth'>
-                    <Button onClick={onLogout} style={{margin: "0 15px 0 0"}} variant='contained'>Logout</Button>
-                    { isValidUrl(userImage()) ? <img style={{borderRadius: "50%", width: "40px", height: "40px"}} src={userImage()} /> :
+                { !auth ? <div className='navauth'> <Link to="/login">
+                        <Button style={{margin: "0 15px 0 0"}} variant='contained'>Login</Button>
+                    </Link>
+                    <Link to="/register">
+                        <Button variant='contained'>Register</Button>
+                    </Link> </div> : <div className='navauth'>
+                    <Button onClick={logoutHandler} style={{margin: "0 15px 0 0"}} variant='contained'>Logout</Button>
+                    { isValidUrl(auth.image) ? <img style={{borderRadius: "50%", width: "40px", height: "40px"}} src={auth.image} /> :
                     <AccountCircleIcon style={{borderRadius: "50%", width: "40px", height: "40px"}} />}
                 </div>}
             

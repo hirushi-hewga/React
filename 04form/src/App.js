@@ -1,3 +1,4 @@
+import { AuthContext } from './components/provoders/AuthProvider'
 import DefaultLayout from './components/layouts/DefaultLayout'
 import AddUsersPage from './pages/registerPage/AddUsersPage'
 import NotFoundPage from './pages/notFoundPage/NotFoundPage'
@@ -6,45 +7,44 @@ import ShowUsersPage from './pages/users/ShowUsersPage'
 import LoginPage from './pages/loginPage/LoginPage'
 import MainPage from './pages/mainPage/MainPage'
 import { Routes, Route } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import './App.css';
+import ShowRolesPage from './pages/roles/ShowRolesPage'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState(null)
 
+  const { auth, login } = useContext(AuthContext)
+  //const [roles, setRoles] = useState()
+  
   useEffect(() => {
-    const userId = localStorage.getItem("currentUserId")
-    if (userId) {
-      setIsLoggedIn(true)
-      setUser(userId)
-    }
+    login()
   }, [])
-
-  const userLoginHandler = (id) => {
-    localStorage.setItem("currentUserId", id)
-    setIsLoggedIn(true)
-    setUser(id)
-  }
-
-  const userLogoutHandler = () => {
-    localStorage.removeItem("currentUserId")
-    setIsLoggedIn(false)
-    setUser(null)
-  }
 
   return (
     <>
       <Routes>
-        <Route path="/" element={ <DefaultLayout isLoggedIn={isLoggedIn} user={user} onLogout={userLogoutHandler} /> }>
+        <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage/> } />
-          <Route path="register" element={ <AddUsersPage/> } />
-          <Route path="login" element={ <LoginPage callBack={userLoginHandler} /> } />
-          <Route path='users' >
-            <Route index element={ <ShowUsersPage /> } />
-            <Route path='user' element={ <EditUserPage /> } />
-            <Route path='user/:id' element={ <EditUserPage isEdit={true} /> } />
-          </Route>
+          { !auth && (
+            <>
+              <Route path="register" element={ <AddUsersPage/> } />
+              <Route path="login" element={ <LoginPage /> } />
+            </>
+          )}
+          { (auth && auth?.role === "admin") && (
+            <>
+              <Route path='users' >
+                <Route index element={ <ShowUsersPage /> } />
+                <Route path='user' element={ <EditUserPage /> } />
+                <Route path='user/:id' element={ <EditUserPage isEdit={true} /> } />
+              </Route>
+              <Route path='roles' >
+                <Route index element={ <ShowRolesPage /> } />
+                <Route path='role' element={ <EditUserPage /> } />
+                <Route path='role/:id' element={ <EditUserPage isEdit={true} /> } />
+              </Route>
+            </>
+          )}
           <Route path="*" element={ <NotFoundPage/> } />
         </Route>
       </Routes>

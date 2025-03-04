@@ -9,7 +9,7 @@ const MainPage = () => {
 
     return (
         <Container>
-            <h1>Hello {email}</h1>
+            <img width="10%" src="https://i.pinimg.com/736x/67/77/b4/6777b418fbe006d52bd74f4212dcc419.jpg"></img>
         </Container>
     )
 }

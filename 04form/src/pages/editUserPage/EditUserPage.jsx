@@ -3,8 +3,8 @@ import { FormError } from '../../components/errors/Errors'
 import { useNavigate, useParams } from "react-router-dom"
 import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { useEffect } from 'react'
+import * as Yup from 'yup'
 
 const EditUserPage = ({ isEdit = false }) => {
     const navigate = useNavigate()
