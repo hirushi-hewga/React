@@ -1,14 +1,23 @@
 import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
 import { FormError } from '../../components/errors/Errors'
 import { useNavigate, useParams } from "react-router-dom"
-import { Link } from 'react-router-dom'
 import { useFormik } from 'formik'
 import { useEffect } from 'react'
+import "./EditUserPage.css"
 import * as Yup from 'yup'
 
 const EditUserPage = ({ isEdit = false }) => {
     const navigate = useNavigate()
     const params = useParams()
+
+    const getRoles = () => {
+        const localData = localStorage.getItem("roles")
+        if (!localData) {
+            navigate("/roles")
+        } else {
+            return JSON.parse(localData)
+        }
+    }
 
     useEffect(() => {
         if (isEdit) {
@@ -70,7 +79,7 @@ const EditUserPage = ({ isEdit = false }) => {
         lastName: Yup.string().required("обов'язково").max(50, "Максимум 50 символів"),
         email: Yup.string().required("Пошта обов'язкова").email("Невірний формат пошти"),
         password: Yup.string().required("Пароль обов'язковий").min(8, "Пароль повинен містити не менше 8 символів"),
-        role: Yup.string().oneOf(["user", "admin"]).required("Роль обов'язкова")
+        role: Yup.string().required("Роль обов'язкова")
     })
 
     const formik = useFormik({
@@ -167,8 +176,9 @@ const EditUserPage = ({ isEdit = false }) => {
                   onChange={formik.handleChange}
                   value={formik.values.role}
                   onBlur={formik.handleBlur}>
-                    <FormControlLabel value="user" control={<Radio />} label="user" />
-                    <FormControlLabel value="admin" control={<Radio />} label="admin" />
+                    {getRoles()?.map(({name}) => (
+                        <FormControlLabel value={`${name}`} control={<Radio />} label={`${name}`} />
+                    ))}
                 </RadioGroup>
             </Box>
             {formik.touched.role && formik.errors.role ? (

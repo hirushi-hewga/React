@@ -5,20 +5,21 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const ShowRolesPage = () => {
-    const [roles, setRoles] = useState([{id: 1, role: "admin"}, {id: 2, role: "user"}])
+    const [roles, setRoles] = useState([{id: 1, name: "admin"}, {id: 2, name: "user"}])
 
     useEffect(() => {
         const localData = localStorage.getItem("roles")
-        if (!roles) {
+        if (!localData) {
             localStorage.setItem("roles", JSON.stringify(roles))
         } else {
-            const array = JSON.parse(localData)
-            setRoles(array)
+            setRoles(JSON.parse(localData))
         }
     }, [])
 
     function deleteRole(id) {
-        const role = roles.find(r => r.id === id)
+        const array = roles.filter(role => role.id !== id)
+        localStorage.setItem("roles", JSON.stringify(array))
+        setRoles(array)
     }
 
     return (
@@ -27,7 +28,7 @@ const ShowRolesPage = () => {
                 <h1>Roles</h1>
             </Box>
             <Link to="role">
-                <Button variant='contained'>Create User</Button>
+                <Button variant='contained'>Create Role</Button>
             </Link>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -49,16 +50,21 @@ const ShowRolesPage = () => {
                                     {id}
                                 </TableCell>
                                 <TableCell align="center">{name}</TableCell>
-                                { ( name !== "admin" || name !== "user" ) && (
+                                { ( name !== "admin" && name !== "user" ) ? (
                                     <>
                                         <TableCell align="right">
-                                            <Link to={`user/${id}`}>
+                                            <Link to={`role/${id}`}>
                                                 <EditIcon />
                                             </Link>
                                         </TableCell>
                                         <TableCell align="left">
                                             <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteRole(id)}} />
                                         </TableCell>
+                                    </>
+                                ) : (
+                                    <>
+                                        <TableCell align="center"></TableCell>
+                                        <TableCell align="center"></TableCell>
                                     </>
                                 )}
                             </TableRow>

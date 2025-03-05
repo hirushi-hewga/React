@@ -3,13 +3,14 @@ import DefaultLayout from './components/layouts/DefaultLayout'
 import AddUsersPage from './pages/registerPage/AddUsersPage'
 import NotFoundPage from './pages/notFoundPage/NotFoundPage'
 import EditUserPage from './pages/editUserPage/EditUserPage'
+import EditRolePage from './pages/editRolePage/EditRolePage'
 import ShowUsersPage from './pages/users/ShowUsersPage'
+import ShowRolesPage from './pages/roles/ShowRolesPage'
 import LoginPage from './pages/loginPage/LoginPage'
 import MainPage from './pages/mainPage/MainPage'
 import { Routes, Route } from 'react-router-dom'
 import { useContext, useEffect } from 'react'
 import './App.css';
-import ShowRolesPage from './pages/roles/ShowRolesPage'
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
               <Route path="login" element={ <LoginPage /> } />
             </>
           )}
-          { (auth && auth?.role === "admin") && (
+          { auth?.role === "admin" && (
             <>
               <Route path='users' >
                 <Route index element={ <ShowUsersPage /> } />
@@ -40,8 +41,8 @@ function App() {
               </Route>
               <Route path='roles' >
                 <Route index element={ <ShowRolesPage /> } />
-                <Route path='role' element={ <EditUserPage /> } />
-                <Route path='role/:id' element={ <EditUserPage isEdit={true} /> } />
+                <Route path='role' element={ <EditRolePage /> } />
+                <Route path='role/:id' element={ <EditRolePage isEdit={true} /> } />
               </Route>
             </>
           )}
