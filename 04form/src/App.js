@@ -1,4 +1,4 @@
-import { AuthContext } from './components/provoders/AuthProvider'
+import { AuthContext } from './components/providers/AuthProvider'
 import DefaultLayout from './components/layouts/DefaultLayout'
 import AddUsersPage from './pages/registerPage/AddUsersPage'
 import NotFoundPage from './pages/notFoundPage/NotFoundPage'
@@ -6,6 +6,7 @@ import EditUserPage from './pages/editUserPage/EditUserPage'
 import EditRolePage from './pages/editRolePage/EditRolePage'
 import ShowUsersPage from './pages/users/ShowUsersPage'
 import ShowRolesPage from './pages/roles/ShowRolesPage'
+import ProfilePage from './pages/profilePage/ProfilePage'
 import LoginPage from './pages/loginPage/LoginPage'
 import MainPage from './pages/mainPage/MainPage'
 import { Routes, Route } from 'react-router-dom'
@@ -26,10 +27,14 @@ function App() {
       <Routes>
         <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage/> } />
-          { !auth && (
+          { !auth ? (
             <>
               <Route path="register" element={ <AddUsersPage/> } />
               <Route path="login" element={ <LoginPage /> } />
+            </>
+          ) : (
+            <>
+              <Route path="profile" element={ <ProfilePage /> } />
             </>
           )}
           { auth?.role === "admin" && (

@@ -1,0 +1,1 @@
+export const defaultAvatarUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVkQMaES_n5ZjJTgoeH3FJaJKLM8t3_mGp-qwnvCIv29qd5q-mu40USHUJ0NOEXnQaxms&usqp=CAU"

@@ -1,4 +1,4 @@
-import { AuthContext } from '../../components/provoders/AuthProvider'
+import { AuthContext } from '../../components/providers/AuthProvider'
 import { FormError } from '../../components/errors/Errors'
 import { Box, Button, TextField } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
