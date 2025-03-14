@@ -2,7 +2,7 @@ import { AuthContext } from '../../components/providers/AuthProvider';
 import { defaultAvatarUrl } from '../../settings/urls'
 import { Button } from '@mui/material';
 import { useContext, useEffect } from 'react';
-import './style.css'
+import "./style.css"
 
 const ProfilePage = () => {
     const { auth, login } = useContext(AuthContext)
@@ -40,30 +40,32 @@ const ProfilePage = () => {
     }
 
     return (
-        <div style={{display: "flex"}}>
-            <div style={{margin: "60px auto"}}>
-                <h1 style={{textAlign: "center"}}>Profile settings</h1>
-                <div style={{display: "flex"}}>
-                    <div style={{margin: "60px 20px", display: "flex", flexDirection: "column", alignItems: "center"}}>
+        <div style={{display: "flex", backgroundColor: "darkgray", margin: "60px auto", borderRadius: "1%"}}>
+            <div style={{width: "100%"}}>
+                <div style={{backgroundColor: "gray"}}>
+                    <h1 style={{textAlign: "center"}}>Profile settings</h1>
+                </div>
+                <div style={{display: "flex", justifyContent: "space-evenly", margin: "30px 0"}}>
+                    <div className="profile-image">
                         <img style={{width: "150px", height: "150px", borderRadius: "50%"}} src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl} />
                         <span style={{fontWeight: "bold"}}>{auth.firstName} {auth.lastName}</span>
                         <span>{auth.email}</span>
                         <input style={{margin: "5px 0"}} id="imageField" placeholder='image url'/>
                         <Button variant='contained' onClick={editAvatar}>Save</Button>
                     </div>
-                    <div style={{fontSize: "20px"}}>
+                    <div className="profile-fields">
                         <div>
-                            <label className='profile-label'>Name : {auth.firstName}</label>
+                            <label>Name : {auth.firstName}</label>
                         </div>
                         <div>
-                            <label className='profile-label'>Surname : {auth.lastName}</label>
+                            <label>Surname : {auth.lastName}</label>
                         </div>
                         <div>
-                            <label className='profile-label'>Mobile Number : </label>
+                            <label>Email : {auth.email}</label>
                         </div>
-                        
-                        
-                        
+                        <div>
+                            <label>Role : {auth.role}</label>
+                        </div>
                     </div>
                 </div>
             </div>
