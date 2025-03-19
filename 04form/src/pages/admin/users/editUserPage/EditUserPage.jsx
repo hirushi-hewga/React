@@ -13,7 +13,7 @@ const EditUserPage = ({ isEdit = false }) => {
     const getRoles = () => {
         const localData = localStorage.getItem("roles")
         if (!localData) {
-            navigate("/roles")
+            navigate(-1)
         } else {
             return JSON.parse(localData)
         }
