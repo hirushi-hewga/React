@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import { FormError } from '../../components/errors/Errors'
+import { FormError } from '../../../../components/errors/Errors'
 import { useNavigate, useParams } from "react-router-dom"
 import { useFormik } from 'formik'
 import { useEffect } from 'react'

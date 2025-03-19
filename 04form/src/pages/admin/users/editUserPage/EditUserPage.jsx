@@ -1,5 +1,5 @@
 import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
-import { FormError } from '../../components/errors/Errors'
+import { FormError } from '../../../../components/errors/Errors'
 import { useNavigate, useParams } from "react-router-dom"
 import { useFormik } from 'formik'
 import { useEffect } from 'react'
@@ -23,14 +23,14 @@ const EditUserPage = ({ isEdit = false }) => {
         if (isEdit) {
             const localData = localStorage.getItem("users")
             if (!localData) {
-                navigate("/users")
+                navigate("/admin/users")
             }
             
             const { id } = params
             const users = JSON.parse(localData)
             const user = users.find(u => u.id == id)
             if (!user) {
-                navigate("/users")
+                navigate("/admin/users")
             }
 
             formik.setValues(user)
@@ -47,13 +47,13 @@ const EditUserPage = ({ isEdit = false }) => {
             users.push(values)
             localStorage.setItem("users", JSON.stringify(users))
         }
-        navigate("/users")
+        navigate("/admin/users")
     }
 
     const formEditHandler = (values) => {
         const localData = localStorage.getItem("users")
         if(!localData) {
-            navigate("/users")
+            navigate("/admin/users")
         }
 
         const users = JSON.parse(localData)
@@ -61,7 +61,7 @@ const EditUserPage = ({ isEdit = false }) => {
         users[userIndex] = {...values}
         localStorage.setItem("users", JSON.stringify(users))
 
-        navigate("/users")
+        navigate("/admin/users")
     }
 
     const initValues = {

@@ -1,11 +1,21 @@
-import { AuthContext } from '../../components/providers/AuthProvider';
+import { AuthContext } from '../../components/providers/AuthProvider'
+import { useContext, useEffect, useState } from 'react'
+import { profileField, profileFieldDiv, profileModal } from './style'
 import { defaultAvatarUrl } from '../../settings/urls'
-import { Button } from '@mui/material';
-import { useContext, useEffect } from 'react';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material'
 import "./style.css"
 
 const ProfilePage = () => {
     const { auth, login } = useContext(AuthContext)
+
+    const [user, setUser] = useState(auth)
+    const [open, setOpen] = useState(false)
+    const openHandler = () => {setOpen(true)}
+    const closeHandler = () => {setOpen(false)}
+
+    const onChange = () => {
+
+    }
 
     const editAvatar = () => {
         const url = document.getElementById("imageField").value
@@ -26,9 +36,9 @@ const ProfilePage = () => {
     }
 
     useEffect(() => {
-        console.log(auth.image);
+        console.log(13242623);
         
-    }, [])
+    }, [user])
 
     function isValidUrl(url) {
         try {
@@ -40,62 +50,69 @@ const ProfilePage = () => {
     }
 
     return (
-        <div style={{display: "flex", backgroundColor: "darkgray", margin: "60px auto", borderRadius: "1%"}}>
-            <div style={{width: "100%"}}>
-                <div style={{backgroundColor: "gray"}}>
-                    <h1 style={{textAlign: "center"}}>Profile settings</h1>
-                </div>
-                <div style={{display: "flex", justifyContent: "space-evenly", margin: "30px 0"}}>
-                    <div className="profile-image">
-                        <img style={{width: "150px", height: "150px", borderRadius: "50%"}} src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl} />
-                        <span style={{fontWeight: "bold"}}>{auth.firstName} {auth.lastName}</span>
-                        <span>{auth.email}</span>
-                        <input style={{margin: "5px 0"}} id="imageField" placeholder='image url'/>
-                        <Button variant='contained' onClick={editAvatar}>Save</Button>
+        <div>
+            <div style={{display: "flex", backgroundColor: "darkgray", margin: "60px auto", borderRadius: "1%"}}>
+                <div style={{width: "100%"}}>
+                    <div style={{backgroundColor: "gray"}}>
+                        <h1 style={{textAlign: "center"}}>Profile settings</h1>
                     </div>
-                    <div className="profile-fields">
-                        <div>
-                            <label>Name : {auth.firstName}</label>
+                    <div style={{display: "flex", justifyContent: "space-evenly", margin: "30px 0"}}>
+                        <div className="profile-image">
+                            <img style={{width: "150px", height: "150px", borderRadius: "50%"}} src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl} />
+                            <span style={{fontWeight: "bold"}}>{auth.firstName} {auth.lastName}</span>
+                            <span>{auth.email}</span>
+                            <input style={{margin: "5px 0"}} id="imageField" placeholder='image url'/>
+                            <Button variant='contained' onClick={editAvatar}>Save</Button>
                         </div>
-                        <div>
-                            <label>Surname : {auth.lastName}</label>
-                        </div>
-                        <div>
-                            <label>Email : {auth.email}</label>
-                        </div>
-                        <div>
-                            <label>Role : {auth.role}</label>
+                        <hr/>
+                        <div className="profile-fields">
+                            <div>
+                                <div style={profileFieldDiv}>
+                                    <div>
+                                        <label>Name : </label>
+                                        <label style={profileField}>{auth.firstName}</label>
+                                    </div>
+                                    <Button onClick={openHandler} style={{margin: "auto 0 auto auto"}} variant='contained'>Change name</Button>
+                                </div>
+                                <hr/>
+                                <div style={profileFieldDiv}>
+                                    <div>
+                                        <label>Surname : </label>
+                                        <label style={profileField}>{auth.lastName}</label>
+                                    </div>
+                                    <Button style={{margin: "auto 0 auto auto"}} variant='contained'>Change surname</Button>
+                                </div>
+                                <hr/>
+                                <div style={profileFieldDiv}>
+                                    <div>
+                                        <label>Email : </label>
+                                        <label style={profileField}>{auth.email}</label>
+                                    </div>
+                                    <Button style={{margin: "auto 0 auto auto"}} variant='contained'>Change email</Button>
+                                </div>
+                                <hr/>
+                                <div style={profileFieldDiv}>
+                                    <div>
+                                        <label>Role : </label>
+                                        <label style={profileField}>{auth.role}</label>
+                                    </div>
+                                    <Button style={{margin: "auto 0 auto auto"}} variant='contained'>Change role</Button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <Modal
+              open={open}
+              onClose={closeHandler}
+            >
+                <Box sx={profileModal}>
+                    <h1>Change name :</h1>
+                    <TextField variant="outlined" type='text'  />
+                </Box>
+            </Modal>
         </div>
-
-        // <div style={{margin: "60px 0"}}>
-        //     <div className="row">
-        //         <div className="col-md-4 border-right">
-        //             <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-        //                 <img className="rounded-circle mt-5" width="150px" src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl}/>
-        //                 <span className="font-weight-bold">{auth.firstName} {auth.lastName}</span>
-        //                 <span className="text-black-50">{auth.email}</span>
-        //                 <input id="imageField" placeholder='image url'/>
-        //                 <Button variant='contained' onClick={editAvatar}>Save</Button>
-        //             </div>
-        //         </div>
-        //         <div className="col-md-7 border-right">
-        //             <div className="p-3 py-5">
-        //                 <div className="d-flex justify-content-between align-items-center mb-3">
-        //                     <h4 className="text-right">Profile Settings</h4>
-        //                 </div>
-        //                 <div className="row mt-2">
-        //                     <div className="col-md-12"><label className="labels">Name</label><input type="text" className="form-control" placeholder="First name" value=""/></div>
-        //                     <div className="col-md-12"><label className="labels">Surname</label><input type="text" className="form-control" value="" placeholder="Last name"/></div>
-        //                     <div className="col-md-12"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="Phone number" value=""/></div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // </div>
     )
 }
 

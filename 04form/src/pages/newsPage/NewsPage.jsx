@@ -14,9 +14,9 @@ const NewsPage = () => {
     const url = `https://newsapi.org/v2/everything?apiKey=${apiKey}&q=${searchParam}&language=${lang}&pageSize=${pageSize}&page=${pagination.page}`
     
     const newRequest = async () => {
-        const responce = await axios.get(url)
-        setNews(responce.data)
-        setPagination({...pagination, total: Math.ceil(responce.data.totalResults / pageSize)})
+        //const responce = await axios.get(url)
+        //setNews(responce.data)
+        //setPagination({...pagination, total: Math.ceil(responce.data.totalResults / pageSize)})
     }
 
     const newsSearchHandler = () => {

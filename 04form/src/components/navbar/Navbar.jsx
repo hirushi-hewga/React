@@ -36,13 +36,11 @@ const Navbar = () => {
         <div className='navbar'>
             <div className='navlinks'>
                 <Link to="/">MainPage</Link>
-                { ( auth?.role === "admin" ) && (
-                    <>
-                        <Link to="/users">Users</Link>
-                        <Link to="/roles">Roles</Link>
-                    </>
+                <Link to="/about">About</Link>
+                {( auth?.role === "admin" ) && (
+                    <Link to="/admin">AdminPanel</Link>
                 )}
-            </div>
+            </div>                            
                 { !auth ? <div className='navauth'> <Link to="/login">
                         <Button style={{margin: "0 15px 0 0"}} variant='contained'>Login</Button>
                     </Link>
