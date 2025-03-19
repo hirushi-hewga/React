@@ -1,21 +1,13 @@
+import { Box, Button, IconButton, Modal, TextField, Typography } from '@mui/material'
 import { AuthContext } from '../../components/providers/AuthProvider'
-import { useContext, useEffect, useState } from 'react'
 import { profileField, profileFieldDiv, profileModal } from './style'
+import { useContext, useEffect, useState } from 'react'
 import { defaultAvatarUrl } from '../../settings/urls'
-import { Box, Button, Modal, TextField, Typography } from '@mui/material'
+import EditIcon from '@mui/icons-material/Edit';
 import "./style.css"
 
 const ProfilePage = () => {
-    const { auth, login } = useContext(AuthContext)
-
-    const [user, setUser] = useState(auth)
-    const [open, setOpen] = useState(false)
-    const openHandler = () => {setOpen(true)}
-    const closeHandler = () => {setOpen(false)}
-
-    const onChange = () => {
-
-    }
+    let { auth, login } = useContext(AuthContext)
 
     const editAvatar = () => {
         const url = document.getElementById("imageField").value
@@ -35,11 +27,6 @@ const ProfilePage = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(13242623);
-        
-    }, [user])
-
     function isValidUrl(url) {
         try {
             new URL(url)
@@ -57,8 +44,8 @@ const ProfilePage = () => {
                         <h1 style={{textAlign: "center"}}>Profile settings</h1>
                     </div>
                     <div style={{display: "flex", justifyContent: "space-evenly", margin: "30px 0"}}>
-                        <div className="profile-image">
-                            <img style={{width: "150px", height: "150px", borderRadius: "50%"}} src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl} />
+                        <div className="profile-image" style={{display: "flex", justifyContent: "center"}}>
+                            <img style={{width: "150px", height: "150px", borderRadius: "50%", border: "1px solid black"}} src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl} />
                             <span style={{fontWeight: "bold"}}>{auth.firstName} {auth.lastName}</span>
                             <span>{auth.email}</span>
                             <input style={{margin: "5px 0"}} id="imageField" placeholder='image url'/>
@@ -72,7 +59,7 @@ const ProfilePage = () => {
                                         <label>Name : </label>
                                         <label style={profileField}>{auth.firstName}</label>
                                     </div>
-                                    <Button onClick={openHandler} style={{margin: "auto 0 auto auto"}} variant='contained'>Change name</Button>
+                                    <EditIcon sx={{"&:hover": {cursor: "pointer"}}} style={{margin: "auto"}} variant='contained'/>
                                 </div>
                                 <hr/>
                                 <div style={profileFieldDiv}>
@@ -80,7 +67,7 @@ const ProfilePage = () => {
                                         <label>Surname : </label>
                                         <label style={profileField}>{auth.lastName}</label>
                                     </div>
-                                    <Button style={{margin: "auto 0 auto auto"}} variant='contained'>Change surname</Button>
+                                    <EditIcon sx={{"&:hover": {cursor: "pointer"}}} style={{margin: "auto"}} variant='contained'/>
                                 </div>
                                 <hr/>
                                 <div style={profileFieldDiv}>
@@ -88,7 +75,7 @@ const ProfilePage = () => {
                                         <label>Email : </label>
                                         <label style={profileField}>{auth.email}</label>
                                     </div>
-                                    <Button style={{margin: "auto 0 auto auto"}} variant='contained'>Change email</Button>
+                                    <EditIcon sx={{"&:hover": {cursor: "pointer"}}} style={{margin: "auto"}} variant='contained'/>
                                 </div>
                                 <hr/>
                                 <div style={profileFieldDiv}>
@@ -96,22 +83,13 @@ const ProfilePage = () => {
                                         <label>Role : </label>
                                         <label style={profileField}>{auth.role}</label>
                                     </div>
-                                    <Button style={{margin: "auto 0 auto auto"}} variant='contained'>Change role</Button>
+                                    <EditIcon sx={{"&:hover": {cursor: "pointer"}}} style={{margin: "auto"}} variant='contained'/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <Modal
-              open={open}
-              onClose={closeHandler}
-            >
-                <Box sx={profileModal}>
-                    <h1>Change name :</h1>
-                    <TextField variant="outlined" type='text'  />
-                </Box>
-            </Modal>
         </div>
     )
 }
