@@ -14,9 +14,10 @@ import { useContext, useEffect } from 'react'
 import './App.css';
 import AdminPanelLayout from './components/layouts/AdminPanelLayout'
 import AboutPage from './pages/aboutPage/AboutPage'
+import { useSelector } from 'react-redux'
 
 function App() {
-
+  const { isAuth, user } = useSelector(state => state.auth)
   const { auth, login } = useContext(AuthContext)
   //const [roles, setRoles] = useState()
   
@@ -30,7 +31,7 @@ function App() {
         <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage /> } />
           <Route path="about" element={ <AboutPage /> } />
-          { !auth ? (
+          { !isAuth ? (
             <>
               <Route path="register" element={ <AddUsersPage/> } />
               <Route path="login" element={ <LoginPage /> } />
@@ -45,7 +46,7 @@ function App() {
 
         {/* /////////////////////////////////////////////////////// */}
 
-        {( auth?.role === "admin" ) && (
+        {( isAuth && user.role === "admin" ) && (
           <Route path="admin" element={<AdminPanelLayout />}>
             <Route path='users' >
               <Route index element={ <ShowUsersPage /> } />

@@ -6,10 +6,11 @@ import { useContext } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import './LoginPage.css'
+import { useDispatch } from 'react-redux'
 
 const LoginPage = () => {
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
     const { login } = useContext(AuthContext)
 
     const formHandler = (values) => {
@@ -20,7 +21,12 @@ const LoginPage = () => {
             array.forEach(item => {
                 if (item.email === values.email && item.password === values.password) {
                     localStorage.setItem("auth", JSON.stringify(item))
-                    login()
+                    
+                    dispatch({
+                        type: "USER_LOGIN",
+                        payload: item
+                    })
+                    
                     navigate('/', {state: {user: values}})
                     isValid = true
                 }

@@ -4,24 +4,27 @@ import { defaultAvatarUrl } from '../../settings/urls'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import './Navbar.css'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null)
     const { auth, logout } = useContext(AuthContext)
+    const { isAuth, user } = useSelector(state => state.auth)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
+    const handleOpenUserMenu = (event) => { setAnchorElUser(event.currentTarget) }
+    const handleCloseUserMenu = () => { setAnchorElUser(null) }
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
+    const logoutHandler = () => {
+        dispatch({type: "USER_LOGOUT"})
+    }
+    
     const settings = [
         {name: 'Profile', action: () => {navigate("/profile")}}, 
-        {name: 'Logout', action: logout} 
+        {name: 'Logout', action: logoutHandler} 
     ]
+    
 
     function isValidUrl(url) {
         try {
@@ -37,11 +40,11 @@ const Navbar = () => {
             <div className='navlinks'>
                 <Link to="/">MainPage</Link>
                 <Link to="/about">About</Link>
-                {( auth?.role === "admin" ) && (
+                {( isAuth && user.role === "admin" ) && (
                     <Link to="/admin">AdminPanel</Link>
                 )}
             </div>                            
-                { !auth ? <div className='navauth'> <Link to="/login">
+                { !isAuth ? <div className='navauth'> <Link to="/login">
                         <Button style={{margin: "0 15px 0 0"}} variant='contained'>Login</Button>
                     </Link>
                     <Link to="/register">

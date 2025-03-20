@@ -3,22 +3,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
 const ShowUsersPage = () => {
-    const [users, setUsers] = useState([])
-    
-    const json = localStorage.getItem("users")
+    const dispatch = useDispatch()
+    const { users, isLoaded } = useSelector(state => state.user)
 
     useEffect(() => {
-        if (json) {
-            const array = JSON.parse(json)
-            setUsers(array)
+        if (!isLoaded) {
+            const json = localStorage.getItem("users")
+            if (!json) {
+                localStorage.setItem("users", JSON.stringify(users))
+                dispatch({ type: "USERS_LOAD", payload: users })
+            } else {
+                const data = JSON.parse(json)
+                dispatch({ type: "USERS_LOAD", payload: data })
+            }
         }
     }, [])
 
     function deleteUser(id) {
-        setUsers(users.filter(user => user.id !== id))
+        users = users.filter(user => user.id !== id)
         localStorage.setItem("users", JSON.stringify(users))
+        dispatch({ type: "USER_DELETE", payload: users })
     }
 
     const showUsers = () => {
