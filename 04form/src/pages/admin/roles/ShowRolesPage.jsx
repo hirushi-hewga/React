@@ -3,23 +3,29 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
 const ShowRolesPage = () => {
-    const [roles, setRoles] = useState([{id: 1, name: "admin"}, {id: 2, name: "user"}])
+    const dispatch = useDispatch()
+    const { roles, isLoaded } = useSelector(state => state.role)
 
     useEffect(() => {
-        const localData = localStorage.getItem("roles")
-        if (!localData) {
-            localStorage.setItem("roles", JSON.stringify(roles))
-        } else {
-            setRoles(JSON.parse(localData))
+        if (!isLoaded) {
+            const json = localStorage.getItem("roles")
+            if (!json) {
+                localStorage.setItem("roles", JSON.stringify(roles))
+                dispatch({ type: "ROLES_LOAD", payload: roles })
+            } else {
+                const data = JSON.parse(json)
+                dispatch({ type: "ROLES_LOAD", payload: data })
+            }
         }
     }, [])
 
     function deleteRole(id) {
+        dispatch({ type: "ROLES_DELETE", payload: id })
         const array = roles.filter(role => role.id !== id)
         localStorage.setItem("roles", JSON.stringify(array))
-        setRoles(array)
     }
 
     return (

@@ -5,8 +5,10 @@ import { useFormik } from 'formik'
 import { useEffect } from 'react'
 import "./EditRolePage.css"
 import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
 
 const EditRolePage = ({ isEdit = false }) => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
 
@@ -14,14 +16,14 @@ const EditRolePage = ({ isEdit = false }) => {
         if (isEdit) {
             const localData = localStorage.getItem("roles")
             if (!localData) {
-                navigate("/roles")
+                navigate("/admin/roles")
             }
             
             const { id } = params
             const roles = JSON.parse(localData)
             const role = roles.find(r => r.id == id)
             if (!role) {
-                navigate("/roles")
+                navigate("/admin/roles")
             }
 
             formik.setValues(role)
@@ -30,21 +32,23 @@ const EditRolePage = ({ isEdit = false }) => {
 
     const formCreateHandler = (values) => {
         const localData = localStorage.getItem("roles")
+        values.id = 1
         if (!localData) {
-            localStorage.setItem("roles", JSON.stringify([{...values, id: 1}]))
+            localStorage.setItem("roles", JSON.stringify([{...values}]))
         } else {
             const roles = JSON.parse(localData)
             values.id = roles[roles.length - 1].id + 1
             roles.push(values)
             localStorage.setItem("roles", JSON.stringify(roles))
         }
-        navigate("/roles")
+        dispatch({ type: "ROLES_CREATE", payload: values })
+        navigate("/admin/roles")
     }
 
     const formEditHandler = (values) => {
         const localData = localStorage.getItem("roles")
         if(!localData) {
-            navigate("/roles")
+            navigate("/admin/roles")
         }
 
         const roles = JSON.parse(localData)
@@ -52,7 +56,8 @@ const EditRolePage = ({ isEdit = false }) => {
         roles[roleIndex] = {...values}
         localStorage.setItem("roles", JSON.stringify(roles))
 
-        navigate("/roles")
+        dispatch({ type: "ROLES_UPDATE", payload: roles })
+        navigate("/admin/roles")
     }
 
     const initValues = {
