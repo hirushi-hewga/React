@@ -23,9 +23,11 @@ const ShowUsersPage = () => {
     }, [])
 
     function deleteUser(id) {
-        dispatch({ type: "USER_DELETE", payload: id })
-        users = users.filter(user => user.id !== id)
-        localStorage.setItem("users", JSON.stringify(users))
+        if (window.confirm('Ви впевнені, що хочете видалити цей елемент?')) {
+            dispatch({ type: "USER_DELETE", payload: id })
+            users = users.filter(user => user.id !== id)
+            localStorage.setItem("users", JSON.stringify(users))
+        }
     }
 
     const showUsers = () => {

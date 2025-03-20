@@ -23,9 +23,11 @@ const ShowRolesPage = () => {
     }, [])
 
     function deleteRole(id) {
-        dispatch({ type: "ROLES_DELETE", payload: id })
-        const array = roles.filter(role => role.id !== id)
-        localStorage.setItem("roles", JSON.stringify(array))
+        if (window.confirm('Ви впевнені, що хочете видалити цей елемент?')) {
+            dispatch({ type: "ROLES_DELETE", payload: id })
+            const array = roles.filter(role => role.id !== id)
+            localStorage.setItem("roles", JSON.stringify(array))
+        }
     }
 
     return (
