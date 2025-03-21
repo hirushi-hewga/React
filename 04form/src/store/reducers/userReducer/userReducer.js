@@ -7,13 +7,13 @@ const userState = {
 const userReducer = (state = userState, action) => { 
     switch (action.type) {
         case "USERS_LOAD":
-            return {...userState, users: action.payload, isLoaded: true, count: action.payload.length}
+            return {...state, users: action.payload, isLoaded: true, count: action.payload.length}
         case "USER_CREATE":
-            return {...userState, users: [...state.users, action.payload], count: state.count + 1}
+            return {...state, users: [...state.users, action.payload], count: state.count + 1}
         case "USER_UPDATE":
-            return {...userState, users: action.payload}
+            return {...state, users: action.payload}
         case "USER_DELETE":
-            return {...userState, users: state.users.filter(u => u.id != action.payload), count: state.count - 1}
+            return {...state, users: action.payload, count: state.count - 1}
         default:
             return state
     }

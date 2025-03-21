@@ -1,38 +1,24 @@
-import { AuthContext } from '../../components/providers/AuthProvider'
-import { FormError } from '../../components/errors/Errors'
-import { Box, Button, TextField } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
-import { useFormik } from 'formik'
+import {FormError} from '../../components/errors/Errors'
+import {Box, Button, TextField} from '@mui/material'
+import {Link, useNavigate} from 'react-router-dom'
+import useAction from '../../hooks/useAction'
+import {useFormik} from 'formik'
+import {useState} from 'react'
 import * as Yup from 'yup'
 import './LoginPage.css'
-import { useDispatch } from 'react-redux'
 
 const LoginPage = () => {
+    const [loginError, setLoginError] = useState(null)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const { login } = useContext(AuthContext)
+    const {login} = useAction()
 
     const formHandler = (values) => {
-        const users = localStorage.getItem("users")
-        const array = JSON.parse(users)
-        const isValid = false
-        if (array) {
-            array.forEach(item => {
-                if (item.email === values.email && item.password === values.password) {
-                    localStorage.setItem("auth", JSON.stringify(item))
-                    
-                    dispatch({
-                        type: "USER_LOGIN",
-                        payload: item
-                    })
-                    
-                    navigate('/', {state: {user: values}})
-                    isValid = true
-                }
-            });
-            if (!isValid)
-                alert('Невірний пароль або пошта')
+        setLoginError(null)
+        const res = login(values)
+        if (res.type === "ERROR") {
+            setLoginError(res.payload)
+        } else {
+            navigate("/")
         }
     }
 
@@ -93,6 +79,9 @@ const LoginPage = () => {
                     <Button type='submit' variant='contained' fullWidth>Login</Button>
                 </Box>
                 <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/register">Register</Link>
+                <Box>
+                    <FormError text={loginError} />
+                </Box>
             </Box>
     )
 }

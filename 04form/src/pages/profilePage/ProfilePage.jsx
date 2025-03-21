@@ -6,9 +6,12 @@ import { defaultAvatarUrl } from '../../settings/urls'
 import EditIcon from '@mui/icons-material/Edit';
 import "./style.css"
 import { useNavigate } from 'react-router-dom'
+import useAction from '../../hooks/useAction'
+import { useSelector } from 'react-redux'
 
 const ProfilePage = () => {
-    const { auth, login } = useContext(AuthContext)
+    const {login} = useAction()
+    const {user} = useSelector(state => state.auth)
     const navigate = useNavigate()
     
     const [avatarOpen, setAvatarOpen] = useState(false);
@@ -29,68 +32,68 @@ const ProfilePage = () => {
 
     const editAvatar = (url) => {
         if (isValidUrl(url)) {
-            const updatedUser = {...auth, image: url}
-            localStorage.setItem("auth", JSON.stringify(updatedUser))
-            login()
+            const updatedUser = {...user, image: url}
+            localStorage.setItem("user", JSON.stringify(updatedUser))
             const localData = localStorage.getItem("users")
             if (localData) {
                 const users = JSON.parse(localData)
-                const index = users.findIndex(u => u.id == auth.id)
+                const index = users.findIndex(u => u.id == user.id)
                 if (index != -1) {
                     users[index].image = url
                 }
                 localStorage.setItem("users", JSON.stringify(users))
             }
+            login(updatedUser)
         }
     }
 
     const editName = (name) => {
         if (name && name.length <= 50) {
-            const updatedUser = {...auth, firstName: name}
-            localStorage.setItem("auth", JSON.stringify(updatedUser))
-            login()
+            const updatedUser = {...user, firstName: name}
+            localStorage.setItem("user", JSON.stringify(updatedUser))
             const localData = localStorage.getItem("users")
             if (localData) {
                 const users = JSON.parse(localData)
-                const index = users.findIndex(u => u.id == auth.id)
+                const index = users.findIndex(u => u.id == user.id)
                 if (index != -1) {
                     users[index].firstName = name
                 }
                 localStorage.setItem("users", JSON.stringify(users))
             }
+            login(updatedUser)
         }
     }
 
     const editSurname = (surname) => {
         if (surname && surname.length <= 50) {
-            const updatedUser = {...auth, lastName: surname}
-            localStorage.setItem("auth", JSON.stringify(updatedUser))
-            login()
+            const updatedUser = {...user, lastName: surname}
+            localStorage.setItem("user", JSON.stringify(updatedUser))
             const localData = localStorage.getItem("users")
             if (localData) {
                 const users = JSON.parse(localData)
-                const index = users.findIndex(u => u.id == auth.id)
+                const index = users.findIndex(u => u.id == user.id)
                 if (index != -1) {
                     users[index].lastName = surname
                 }
                 localStorage.setItem("users", JSON.stringify(users))
             }
+            login(updatedUser)
         }
     }
 
     const editPassword = (password) => {
-        const updatedUser = {...auth, password: password}
-        localStorage.setItem("auth", JSON.stringify(updatedUser))
-        login()
+        const updatedUser = {...user, password: password}
+        localStorage.setItem("user", JSON.stringify(updatedUser))
         const localData = localStorage.getItem("users")
         if (localData) {
             const users = JSON.parse(localData)
-            const index = users.findIndex(u => u.id == auth.id)
+            const index = users.findIndex(u => u.id == user.id)
             if (index != -1) {
                 users[index].password = password
             }
             localStorage.setItem("users", JSON.stringify(users))
         }
+        login(updatedUser)
     }
 
     function isValidUrl(url) {
@@ -114,9 +117,9 @@ const ProfilePage = () => {
                             <IconButton onClick={avatarHandleOpen}>
                                 <EditIcon />
                             </IconButton>
-                            <img style={{width: "150px", height: "150px", borderRadius: "50%", border: "1px solid black"}} src={isValidUrl(auth.image) ? auth.image : defaultAvatarUrl} />
-                            <span style={{fontWeight: "bold"}}>{auth.firstName} {auth.lastName}</span>
-                            <span>{auth.email}</span>
+                            <img style={{width: "150px", height: "150px", borderRadius: "50%", border: "1px solid black"}} src={isValidUrl(user.image) ? user.image : defaultAvatarUrl} />
+                            <span style={{fontWeight: "bold"}}>{user.firstName} {user.lastName}</span>
+                            <span>{user.email}</span>
                         </div>
                         <hr/>
                         <div className="profile-fields">
@@ -124,7 +127,7 @@ const ProfilePage = () => {
                                 <div style={profileFieldDiv}>
                                     <div>
                                         <label>Name : </label>
-                                        <label style={profileField}>{auth.firstName}</label>
+                                        <label style={profileField}>{user.firstName}</label>
                                     </div>
                                     <EditIcon onClick={nameHandleOpen} sx={{"&:hover": {cursor: "pointer"}}} style={{margin: "auto"}} variant='contained'/>
                                 </div>
@@ -132,7 +135,7 @@ const ProfilePage = () => {
                                 <div style={profileFieldDiv}>
                                     <div>
                                         <label>Surname : </label>
-                                        <label style={profileField}>{auth.lastName}</label>
+                                        <label style={profileField}>{user.lastName}</label>
                                     </div>
                                     <EditIcon onClick={surnameHandleOpen} sx={{"&:hover": {cursor: "pointer"}}} style={{margin: "auto"}} variant='contained'/>
                                 </div>
@@ -140,14 +143,14 @@ const ProfilePage = () => {
                                 <div style={profileFieldDiv}>
                                     <div>
                                         <label>Email : </label>
-                                        <label style={profileField}>{auth.email}</label>
+                                        <label style={profileField}>{user.email}</label>
                                     </div>
                                 </div>
                                 <hr/>
                                 <div style={profileFieldDiv}>
                                     <div>
                                         <label>Role : </label>
-                                        <label style={profileField}>{auth.role}</label>
+                                        <label style={profileField}>{user.role}</label>
                                     </div>
                                 </div>
                                 <Button onClick={passwordHandleOpen} variant='contained' style={{width: "50%", margin: "auto"}}>Change password</Button>
@@ -208,7 +211,7 @@ const ProfilePage = () => {
                         const password = document.getElementById('profile-password-input').value
                         const newPassword = document.getElementById('profile-newPassword-input').value
                         const confirmPassword = document.getElementById('profile-confirmPassword-input').value
-                        if (password === auth.password && newPassword === confirmPassword && newPassword.length >= 8) {
+                        if (password === user.password && newPassword === confirmPassword && newPassword.length >= 8) {
                             editPassword(newPassword)
                             alert('пароль змінено')
                         }

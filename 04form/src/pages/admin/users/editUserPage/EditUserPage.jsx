@@ -6,9 +6,11 @@ import { useEffect } from 'react'
 import "./EditUserPage.css"
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
+import useAction from '../../../../hooks/useAction'
 
 const EditUserPage = ({ isEdit = false }) => {
     const dispatch = useDispatch()
+    const {createUser, updateUser} = useAction()
     const navigate = useNavigate()
     const params = useParams()
 
@@ -40,32 +42,12 @@ const EditUserPage = ({ isEdit = false }) => {
     }, [])
 
     const formCreateHandler = (values) => {
-        const localData = localStorage.getItem("users")
-        values.id = 1
-        if (!localData) {
-            localStorage.setItem("users", JSON.stringify([{...values}]))
-        } else {
-            const users = JSON.parse(localData)
-            values.id = users[users.length - 1].id + 1
-            users.push(values)
-            localStorage.setItem("users", JSON.stringify(users))
-        }
-        dispatch({ type: "USER_CREATE", payload: values })
+        createUser(values)
         navigate("/admin/users")
     }
 
     const formEditHandler = (values) => {
-        const localData = localStorage.getItem("users")
-        if(!localData) {
-            navigate("/admin/users")
-        }
-
-        const users = JSON.parse(localData)
-        const userIndex = users.findIndex(u => u.id = values.id)
-        users[userIndex] = {...values}
-        localStorage.setItem("users", JSON.stringify(users))
-        dispatch({ type: "USER_UPDATE", payload: users })
-
+        updateUser(values)
         navigate("/admin/users")
     }
 

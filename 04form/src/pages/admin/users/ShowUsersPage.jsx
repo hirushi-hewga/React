@@ -4,29 +4,22 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import useAction from '../../../hooks/useAction';
 
 const ShowUsersPage = () => {
     const dispatch = useDispatch()
-    const { users, isLoaded } = useSelector(state => state.user)
+    const {users, isLoaded} = useSelector(state => state.user)
+    const {loadUsers, deleteUser} = useAction()
 
     useEffect(() => {
         if (!isLoaded) {
-            const json = localStorage.getItem("users")
-            if (!json) {
-                localStorage.setItem("users", JSON.stringify(users))
-                dispatch({ type: "USERS_LOAD", payload: users })
-            } else {
-                const data = JSON.parse(json)
-                dispatch({ type: "USERS_LOAD", payload: data })
-            }
+            loadUsers()
         }
     }, [])
 
     function deleteUser(id) {
         if (window.confirm('Ви впевнені, що хочете видалити цей елемент?')) {
-            dispatch({ type: "USER_DELETE", payload: id })
-            users = users.filter(user => user.id !== id)
-            localStorage.setItem("users", JSON.stringify(users))
+            deleteUser(id)
         }
     }
 
