@@ -1,19 +1,19 @@
 const roleState = {
-    roles: [{id: 1, name: "admin"}, {id: 2, name: "user"}],
+    roles: [],
     isLoaded: false,
-    count: 2
+    count: 0
 }
 
 const roleReducer = (state = roleState, action) => { 
     switch (action.type) {
         case "ROLES_LOAD":
             return {...state, roles: action.payload, isLoaded: true, count: action.payload.length}
-        case "ROLES_CREATE":
+        case "ROLE_CREATE":
             return {...state, roles: [...state.roles, action.payload], count: state.count + 1}
-        case "ROLES_UPDATE":
+        case "ROLE_UPDATE":
             return {...state, roles: action.payload}
-        case "ROLES_DELETE":
-            return {...state, roles: state.roles.filter(u => u.id != action.payload), count: state.count - 1}
+        case "ROLE_DELETE":
+            return {...state, roles: action.payload, count: state.count - 1}
         default:
             return state
     }

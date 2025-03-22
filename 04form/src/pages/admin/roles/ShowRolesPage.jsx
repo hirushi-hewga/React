@@ -4,29 +4,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import useAction from '../../../hooks/useAction';
 
 const ShowRolesPage = () => {
-    const dispatch = useDispatch()
-    const { roles, isLoaded } = useSelector(state => state.role)
+    const {roles, isLoaded} = useSelector(state => state.role)
+    const {loadRoles, deleteRole} = useAction()
 
     useEffect(() => {
         if (!isLoaded) {
-            const json = localStorage.getItem("roles")
-            if (!json) {
-                localStorage.setItem("roles", JSON.stringify(roles))
-                dispatch({ type: "ROLES_LOAD", payload: roles })
-            } else {
-                const data = JSON.parse(json)
-                dispatch({ type: "ROLES_LOAD", payload: data })
-            }
+            loadRoles()
         }
     }, [])
 
-    function deleteRole(id) {
+    function deleteRoleHandler(id) {
         if (window.confirm('Ви впевнені, що хочете видалити цей елемент?')) {
-            dispatch({ type: "ROLES_DELETE", payload: id })
-            const array = roles.filter(role => role.id !== id)
-            localStorage.setItem("roles", JSON.stringify(array))
+            deleteRole(id)
         }
     }
 
@@ -66,7 +58,7 @@ const ShowRolesPage = () => {
                                             </Link>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteRole(id)}} />
+                                            <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteRoleHandler(id)}} />
                                         </TableCell>
                                     </>
                                 ) : (

@@ -17,7 +17,7 @@ const ShowUsersPage = () => {
         }
     }, [])
 
-    function deleteUser(id) {
+    function deleteUserHandler(id) {
         if (window.confirm('Ви впевнені, що хочете видалити цей елемент?')) {
             deleteUser(id)
         }
@@ -70,7 +70,7 @@ const ShowUsersPage = () => {
                                     </Link>
                                 </TableCell>
                                 <TableCell align="left">
-                                    <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteUser(id)}} />
+                                    <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteUserHandler(id)}} />
                                 </TableCell>
                             </TableRow>
                         ))}

@@ -6,9 +6,10 @@ import { useEffect } from 'react'
 import "./EditRolePage.css"
 import * as Yup from 'yup'
 import { useDispatch } from 'react-redux'
+import useAction from '../../../../hooks/useAction'
 
 const EditRolePage = ({ isEdit = false }) => {
-    const dispatch = useDispatch()
+    const {createRole, updateRole} = useAction()
     const navigate = useNavigate()
     const params = useParams()
 
@@ -31,32 +32,12 @@ const EditRolePage = ({ isEdit = false }) => {
     }, [])
 
     const formCreateHandler = (values) => {
-        const localData = localStorage.getItem("roles")
-        values.id = 1
-        if (!localData) {
-            localStorage.setItem("roles", JSON.stringify([{...values}]))
-        } else {
-            const roles = JSON.parse(localData)
-            values.id = roles[roles.length - 1].id + 1
-            roles.push(values)
-            localStorage.setItem("roles", JSON.stringify(roles))
-        }
-        dispatch({ type: "ROLES_CREATE", payload: values })
+        createRole(values)
         navigate("/admin/roles")
     }
 
     const formEditHandler = (values) => {
-        const localData = localStorage.getItem("roles")
-        if(!localData) {
-            navigate("/admin/roles")
-        }
-
-        const roles = JSON.parse(localData)
-        const roleIndex = roles.findIndex(r => r.id == values.id)
-        roles[roleIndex] = {...values}
-        localStorage.setItem("roles", JSON.stringify(roles))
-
-        dispatch({ type: "ROLES_UPDATE", payload: roles })
+        updateRole(values)
         navigate("/admin/roles")
     }
 

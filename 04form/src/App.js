@@ -19,6 +19,23 @@ import './App.css';
 function App() {
   const {isAuth, user} = useSelector(state => state.auth)
   const {login} = useAction()
+
+  // load role list
+  useEffect(() => {
+    const localData = localStorage.getItem("roles")
+    if (!localData) {
+      localStorage.setItem("roles", JSON.stringify([
+        {
+          id: 1,
+          name: "admin"
+        },
+        {
+          id: 2,
+          name: "user"
+        }
+      ]))
+    }
+  })
   
   // load user list
   useEffect(() => {
