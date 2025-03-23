@@ -5,22 +5,26 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import useAction from '../../../hooks/useAction';
+import ConfirmModal from '../../../components/modal/ConfirmModal';
 
 const ShowRolesPage = () => {
     const {roles, isLoaded} = useSelector(state => state.role)
     const {loadRoles, deleteRole} = useAction()
+
+    const [id, setId] = useState(null)
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
+    
+    const deleteHandler = () => {
+        deleteRole(id)
+    }
 
     useEffect(() => {
         if (!isLoaded) {
             loadRoles()
         }
     }, [])
-
-    function deleteRoleHandler(id) {
-        if (window.confirm('Ви впевнені, що хочете видалити цей елемент?')) {
-            deleteRole(id)
-        }
-    }
 
     return (
         <>
@@ -58,7 +62,10 @@ const ShowRolesPage = () => {
                                             </Link>
                                         </TableCell>
                                         <TableCell align="left">
-                                            <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {deleteRoleHandler(id)}} />
+                                            <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {
+                                                setId(id)
+                                                handleOpen()
+                                            }} />
                                         </TableCell>
                                     </>
                                 ) : (
@@ -72,6 +79,7 @@ const ShowRolesPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={handleClose} />
         </>
     )
 }
