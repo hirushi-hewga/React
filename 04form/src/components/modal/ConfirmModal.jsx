@@ -16,7 +16,7 @@ const style = {
   p: 4
 };
 
-const ConfirmModal = ({deleteHandler, open, handleClose}) => {
+const ConfirmModal = ({action, open, handleClose, title, text}) => {
     return (
         <div>
             <Modal
@@ -27,12 +27,15 @@ const ConfirmModal = ({deleteHandler, open, handleClose}) => {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Delete
+                        {title}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{mt: 2}}>
+                        {text}
                     </Typography>
                     <div style={{display: "flex", justifyContent: "right"}}>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={() => {
-                            deleteHandler()
+                        <Button color='error' onClick={() => {
+                            action()
                             handleClose()
                         }}>Delete</Button>
                     </div>

@@ -11,12 +11,8 @@ const ShowUsersPage = () => {
     const {users, isLoaded} = useSelector(state => state.user)
     const {loadUsers, deleteUser} = useAction()
 
-    const [id, setId] = useState(null)
-    const [open, setOpen] = useState(false)
-    
-    const deleteHandler = () => {
-        deleteUser(id)
-    }
+    const [userId, setUserId] = useState(null)
+    const [modalOpen, setModalOpen] = useState(false)
     
         useEffect(() => {
             if (!isLoaded) {
@@ -72,8 +68,8 @@ const ShowUsersPage = () => {
                                 </TableCell>
                                 <TableCell align="left">
                                     <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {
-                                        setId(id)
-                                        setOpen(true)
+                                        setUserId(id)
+                                        setModalOpen(true)
                                     }} />
                                 </TableCell>
                             </TableRow>
@@ -81,7 +77,12 @@ const ShowUsersPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={() => setOpen(false)} />
+            <ConfirmModal 
+                title="Delete user" 
+                text="Are you sure?" 
+                open={modalOpen} 
+                handleClose={() => setModalOpen(false)} 
+                action={() => deleteUser(userId)} />
         </>
     )
 }

@@ -11,12 +11,8 @@ const ShowRolesPage = () => {
     const {roles, isLoaded} = useSelector(state => state.role)
     const {loadRoles, deleteRole} = useAction()
 
-    const [id, setId] = useState(null)
-    const [open, setOpen] = useState(false)
-    
-    const deleteHandler = () => {
-        deleteRole(id)
-    }
+    const [roleId, setRoleId] = useState(null)
+    const [modalOpen, setModalOpen] = useState(false)
 
     useEffect(() => {
         if (!isLoaded) {
@@ -61,8 +57,8 @@ const ShowRolesPage = () => {
                                         </TableCell>
                                         <TableCell align="left">
                                             <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {
-                                                setId(id)
-                                                setOpen(true)
+                                                setRoleId(id)
+                                                setModalOpen(true)
                                             }} />
                                         </TableCell>
                                     </>
@@ -77,7 +73,12 @@ const ShowRolesPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={() => setOpen(false)} />
+            <ConfirmModal 
+                title="Delete role" 
+                text="Are you sure?" 
+                open={modalOpen} 
+                handleClose={() => setModalOpen(false)} 
+                action={() => deleteRole(roleId)} />
         </>
     )
 }
