@@ -13,8 +13,6 @@ const ShowRolesPage = () => {
 
     const [id, setId] = useState(null)
     const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
     
     const deleteHandler = () => {
         deleteRole(id)
@@ -64,7 +62,7 @@ const ShowRolesPage = () => {
                                         <TableCell align="left">
                                             <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {
                                                 setId(id)
-                                                handleOpen()
+                                                setOpen(true)
                                             }} />
                                         </TableCell>
                                     </>
@@ -79,7 +77,7 @@ const ShowRolesPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={handleClose} />
+            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={() => setOpen(false)} />
         </>
     )
 }

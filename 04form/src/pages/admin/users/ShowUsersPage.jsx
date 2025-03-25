@@ -8,14 +8,11 @@ import useAction from '../../../hooks/useAction';
 import ConfirmModal from '../../../components/modal/ConfirmModal';
 
 const ShowUsersPage = () => {
-    const dispatch = useDispatch()
     const {users, isLoaded} = useSelector(state => state.user)
     const {loadUsers, deleteUser} = useAction()
 
     const [id, setId] = useState(null)
     const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
     
     const deleteHandler = () => {
         deleteUser(id)
@@ -76,7 +73,7 @@ const ShowUsersPage = () => {
                                 <TableCell align="left">
                                     <DeleteIcon sx={{"&:hover": {cursor: "pointer"}}} onClick={() => {
                                         setId(id)
-                                        handleOpen()
+                                        setOpen(true)
                                     }} />
                                 </TableCell>
                             </TableRow>
@@ -84,7 +81,7 @@ const ShowUsersPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={handleClose} />
+            <ConfirmModal deleteHandler={deleteHandler} open={open} handleClose={() => setOpen(false)} />
         </>
     )
 }
