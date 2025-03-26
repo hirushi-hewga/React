@@ -4,22 +4,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import './AddUsersPage.css'
 import * as Yup from 'yup'
+import useAction from '../../hooks/useAction'
 
 const RegisterPage = () => {
     const navigate = useNavigate()
+    const {register} = useAction()
 
     const formHandler = (values) => {
-        delete values.confirmPassword
-        values.role = "user"
-        const users = localStorage.getItem("users")
-        if (!users) {
-            localStorage.setItem("users", JSON.stringify([values]))
-        } else {
-            const array = JSON.parse(users)
-            array.push({...values, id: array.at(-1).id + 1})
-            localStorage.setItem("users", JSON.stringify(array))
-        }
-        navigate("/users")
+        register(values)
+        navigate("/")
     }
 
     const initValues = {
