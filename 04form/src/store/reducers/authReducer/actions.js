@@ -42,14 +42,39 @@ export const logout = () => {
 
 export const googleLogin = (jwtToken) => {
     const payload = jwtDecode(jwtToken)
-        
+    const localData = localStorage.getItem("users")
+    if (localData) {
+        const users = JSON.parse(localData)
+        const user = users.find(u => u.email == payload.email)
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user))
+            return {type: "USER_LOGIN", payload: user}
+        } else {
+            return {type: "ERROR", payload: "User not found"}
+        }
+    } else {
+        return {type: "ERROR", payload: "Users list not found"}
+    }
+}
+
+export const googleRegister = (jwtToken) => {
+    const payload = jwtDecode(jwtToken)
+    const localData = localStorage.getItem("users")
+    let users = []
     const user = {
+        id: 1,
         firstName: payload.given_name,
         lastName: payload.family_name,
         email: payload.email,
         image: payload.picture,
         role: "user"
     }
-
-    return {type: "GOOGLE_LOGIN", payload: user}
+    if (localData) {
+        users = JSON.parse(localData)
+        user.id = users[users.length - 1].id + 1
+    }
+    users.push(user)
+    localStorage.setItem("users", JSON.stringify(users))
+    localStorage.setItem("user", JSON.stringify(user))
+    return {type: "USER_REGISTER", payload: user}
 }

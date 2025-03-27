@@ -153,7 +153,7 @@ const ProfilePage = () => {
                                         <label style={profileField}>{user.role}</label>
                                     </div>
                                 </div>
-                                <Button onClick={passwordHandleOpen} variant='contained' style={{width: "50%", margin: "auto"}}>Change password</Button>
+                                {user.password && <Button onClick={passwordHandleOpen} variant='contained' style={{width: "50%", margin: "auto"}}>Change password</Button>}
                             </div>
                         </div>
                     </div>

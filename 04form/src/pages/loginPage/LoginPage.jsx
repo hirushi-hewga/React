@@ -24,12 +24,16 @@ const LoginPage = () => {
             navigate("/")
         }
     }
-
     
     //google login
     const googleLoginHandler = (responce) => {
-        googleLogin(responce.credential)
-        navigate("/")
+        setLoginError(null)
+        const res = googleLogin(responce.credential)
+        if (res.type === "ERROR") {
+            setLoginError(res.payload)
+        } else {
+            navigate("/")
+        }
     }
 
     const googleErrorHandler = () => {
@@ -94,7 +98,7 @@ const LoginPage = () => {
                     <Button type='submit' variant='contained' fullWidth>Login</Button>
                 </Box>
                 <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/register">Register</Link>
-                <Box>
+                <Box style={{margin: "auto"}}>
                     <FormError text={loginError} />
                 </Box>
                 <Box style={{margin: "auto"}}>

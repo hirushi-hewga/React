@@ -2,14 +2,13 @@ import { Box, Button, FormControlLabel, FormLabel, Radio, RadioGroup, TextField 
 import { FormError } from '../../../../components/errors/Errors'
 import { useNavigate, useParams } from "react-router-dom"
 import { useFormik } from 'formik'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import "./EditUserPage.css"
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
 import useAction from '../../../../hooks/useAction'
 
 const EditUserPage = ({ isEdit = false }) => {
-    const dispatch = useDispatch()
+    const [isGoogle, setIsGoogle] = useState(false)
     const {createUser, updateUser} = useAction()
     const navigate = useNavigate()
     const params = useParams()
@@ -37,6 +36,10 @@ const EditUserPage = ({ isEdit = false }) => {
                 navigate("/admin/users")
             }
 
+            if (!user.password) {
+                setIsGoogle(true)
+                user.password = "qwerty-1"
+            }
             formik.setValues(user)
         }
     }, [])
@@ -47,6 +50,9 @@ const EditUserPage = ({ isEdit = false }) => {
     }
 
     const formEditHandler = (values) => {
+        if (isGoogle) {
+            delete values.password
+        }
         updateUser(values)
         navigate("/admin/users")
     }
@@ -126,7 +132,7 @@ const EditUserPage = ({ isEdit = false }) => {
             {formik.touched.email && formik.errors.email ? (
                 <FormError text={formik.errors.email} />
             ) : null}
-            <Box className="form-control">
+            {!isGoogle && <Box className="form-control">
                 <TextField
                   id="password"
                   name="password"
@@ -137,8 +143,8 @@ const EditUserPage = ({ isEdit = false }) => {
                   value={formik.values.password}
                   onBlur={formik.handleBlur}
                 />
-            </Box>
-            {formik.touched.password && formik.errors.password ? (
+            </Box>}
+            {!isGoogle && formik.touched.password && formik.errors.password ? (
                 <FormError text={formik.errors.password} />
             ) : null}
             <Box className="form-control">

@@ -17,6 +17,7 @@ const Navbar = () => {
 
     const logoutHandler = () => {
         logout()
+        navigate("/login")
     }
     
     const settings = [
