@@ -147,7 +147,7 @@ const RegisterPage = () => {
                 </Box>
 
                 <Box className="form-control">
-                    <Button type='submit' variant='contained' fullWidth>Add user</Button>
+                    <Button color="secondary" type='submit' variant='contained' fullWidth>Register</Button>
                 </Box>
 
                 <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/login">Login</Link>

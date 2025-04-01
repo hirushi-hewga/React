@@ -15,9 +15,12 @@ import useAction from './hooks/useAction'
 import {useSelector} from 'react-redux'
 import {useEffect} from 'react'
 import './App.css';
+import {ThemeProvider} from '@mui/material'
+import { darkTheme, lightTheme } from './theming/themes'
 
 function App() {
   const {isAuth, user} = useSelector(state => state.auth)
+  const {theme} = useSelector(state => state.theme)
   const {login} = useAction()
 
   // load role list
@@ -70,7 +73,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <Routes>
         <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage /> } />
@@ -105,8 +108,8 @@ function App() {
           </Route>
         )}
       </Routes>
-    </>
-  );
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App

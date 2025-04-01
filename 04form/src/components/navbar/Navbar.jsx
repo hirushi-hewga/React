@@ -1,16 +1,19 @@
-import {Button, IconButton, Box, Avatar, Tooltip, Menu, MenuItem, Typography} from '@mui/material'
+import {Button, IconButton, Box, Avatar, Tooltip, Menu, MenuItem, Typography, AppBar, useTheme} from '@mui/material'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
 import {defaultAvatarUrl} from '../../settings/urls'
 import {Link, useNavigate} from 'react-router-dom'
 import useAction from '../../hooks/useAction'
 import {useSelector} from 'react-redux'
 import {useState} from 'react'
-import './Navbar.css'
 
 const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null)
     const {isAuth, user} = useSelector(state => state.auth)
-    const {logout} = useAction()
+    const {theme} = useSelector(state => state.theme)
+    const {logout, setTheme} = useAction()
     const navigate = useNavigate()
+    const themeStyles = useTheme()
     
     const handleOpenUserMenu = (event) => { setAnchorElUser(event.currentTarget) }
     const handleCloseUserMenu = () => { setAnchorElUser(null) }
@@ -25,6 +28,12 @@ const Navbar = () => {
         {name: 'Logout', action: logoutHandler} 
     ]
     
+    const navlinksStyle = {
+        textDecoration: "none",
+        fontWeight: "bold",
+        fontSize: "large",
+        color: themeStyles.palette.text.main
+    }
 
     function isValidUrl(url) {
         try {
@@ -36,55 +45,66 @@ const Navbar = () => {
     }
     
     return (
-        <div className='navbar'>
-            <div className='navlinks'>
-                <Link to="/">MainPage</Link>
-                <Link to="/about">About</Link>
-                {( isAuth && user.role === "admin" ) && (
-                    <Link to="/admin">AdminPanel</Link>
-                )}
-            </div>                            
-            { !isAuth ? <div className='navauth'> <Link to="/login">
-                    <Button style={{margin: "0 15px 0 0"}} variant='contained'>Login</Button>
-                </Link>
-                <Link to="/register">
-                    <Button variant='contained'>Register</Button>
-                </Link> </div> : <Box sx={{  display: "flex", justifyContent: "center", flexGrow: 1 }}>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src={ isValidUrl(user.image) ? user.image : defaultAvatarUrl } />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                      sx={{ mt: '45px' }}
-                      id="menu-appbar"
-                      anchorEl={anchorElUser}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      open={Boolean(anchorElUser)}
-                      onClose={handleCloseUserMenu}
-                    >
-                      {settings.map((setting) => (
-                            <MenuItem key={setting.name} onClick={() => {
-                                handleCloseUserMenu()
-                                if (setting.action) {
-                                    setting.action()
-                                }
-                            }}>
-                                <Typography sx={{ textAlign: 'center' }}>{setting.name}</Typography>
-                            </MenuItem>
-                      ))}
-                    </Menu>
+        <AppBar position="static" sx={{height: "60px"}}>
+            <Box sx={{display: "flex", alignItems: "center", height: "100%"}}>
+                <Box sx={{flexGrow: 6, display: "flex", justifyContent: "space-evenly"}}>
+                    <Link style={navlinksStyle} to="/">MainPage</Link>
+                    <Link style={navlinksStyle} to="/about">About</Link>
+                    {( isAuth && user.role === "admin" ) && (
+                        <Link style={navlinksStyle} to="/admin">AdminPanel</Link>
+                    )}
                 </Box>
-            }
-        </div>
+                <Box onClick={() => {}} sx={{flexGrow: 1, display: "flex", justifyContent: "right"}}>
+                    {theme === "dark" ? <IconButton onClick={setTheme("light")}>
+                        <LightModeIcon/>
+                    </IconButton> : <IconButton onClick={setTheme("dark")}>
+                        <DarkModeIcon/>
+                    </IconButton>}
+                </Box>   
+                <Box sx={{display: "flex", justifyContent: "center", flexGrow: 1}}>
+                    { !isAuth ? <Box> <Link to="/login">
+                            <Button color='secondary' style={{margin: "0 15px 0 0"}} variant='contained'>Login</Button>
+                        </Link>
+                        <Link to="/register">
+                            <Button color='secondary' variant='contained'>Register</Button>
+                        </Link> </Box> : <Box>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" src={ isValidUrl(user.image) ? user.image : defaultAvatarUrl } />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                              sx={{ mt: '45px' }}
+                              id="menu-appbar"
+                              anchorEl={anchorElUser}
+                              anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                              }}
+                              keepMounted
+                              transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                              }}
+                              open={Boolean(anchorElUser)}
+                              onClose={handleCloseUserMenu}
+                            >
+                              {settings.map((setting) => (
+                                    <MenuItem key={setting.name} onClick={() => {
+                                        handleCloseUserMenu()
+                                        if (setting.action) {
+                                            setting.action()
+                                        }
+                                    }}>
+                                        <Typography sx={{ textAlign: 'center' }}>{setting.name}</Typography>
+                                    </MenuItem>
+                              ))}
+                            </Menu>
+                        </Box>
+                    }
+                </Box>
+            </Box>
+        </AppBar>
     )
 }
 

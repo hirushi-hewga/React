@@ -95,7 +95,7 @@ const LoginPage = () => {
                     <FormError text={formik.errors.password} />
                 ) : null}
                 <Box className="form-control">
-                    <Button type='submit' variant='contained' fullWidth>Login</Button>
+                    <Button color="secondary" type='submit' variant='contained' fullWidth>Login</Button>
                 </Box>
                 <Link style={{"margin": "10px", "textAlign": "center", "color": "gray"}} to="/register">Register</Link>
                 <Box style={{margin: "auto"}}>
