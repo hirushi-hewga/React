@@ -55,18 +55,18 @@ const Navbar = () => {
                     )}
                 </Box>
                 <Box sx={{flexGrow: 1, display: "flex", justifyContent: "right"}}>
-                    {theme === "dark" ? <IconButton sx={{color: muiTheme.palette.text.main}} onClick={setTheme("light")}>
+                    {theme === "dark" ? <IconButton sx={{color: muiTheme.palette.text.main}} onClick={() => setTheme("light")}>
                         <LightModeIcon/>
-                    </IconButton> : <IconButton sx={{color: muiTheme.palette.text.main}} onClick={setTheme("dark")}>
+                    </IconButton> : <IconButton sx={{color: muiTheme.palette.text.main}} onClick={() => setTheme("dark")}>
                         <DarkModeIcon/>
                     </IconButton>}
                 </Box>   
                 <Box sx={{display: "flex", justifyContent: "center", flexGrow: 1}}>
                     { !isAuth ? <Box> <Link to="/login">
-                            <Button color='secondary' style={{margin: "0 15px 0 0"}} variant='contained'>Login</Button>
+                            <Button color='secondary' style={{margin: "0 15px 0 0", color: muiTheme.palette.text.main}} variant='contained'>Login</Button>
                         </Link>
                         <Link to="/register">
-                            <Button color='secondary' variant='contained'>Register</Button>
+                            <Button style={{color: muiTheme.palette.text.main}} color='secondary' variant='contained'>Register</Button>
                         </Link> </Box> : <Box>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

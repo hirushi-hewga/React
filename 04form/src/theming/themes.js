@@ -21,14 +21,14 @@ export const darkTheme = createTheme({
 export const lightTheme = createTheme({
     palette: {
         primary: {
-          light: "#6f8cf7",
-          main: "#4B70F5",
-          dark: "#344eab"
-        },
-        secondary: {
           light: "#35baf6",
           main: "#03a9f4",
           dark: "#0276aa"
+        },
+        secondary: {
+          light: "#6f8cf7",
+          main: "#4B70F5",
+          dark: "#344eab"
         },
         text: {
           main: "#000"
