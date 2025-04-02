@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import './LoginPage.css'
 
 const LoginPage = () => {
-    const clientId = "863726561080-av2c4tuo1ano7k97m4pvhd5vsg9kfljo.apps.googleusercontent.com"
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
     const [loginError, setLoginError] = useState(null)
     const navigate = useNavigate()

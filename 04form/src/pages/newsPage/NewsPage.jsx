@@ -8,7 +8,7 @@ const NewsPage = () => {
     const [pagination, setPagination] = useState({ page: 1, total: 1 })
     const [searchParam, setSearchParam] = useState("news")
 
-    const apiKey = "fdefd44336da416dbb261b21c19ad9b6"
+    const apiKey = process.env.REACT_APP_NEWS_API_KEY
     const lang = "uk"
     const pageSize = 20
     const url = `https://newsapi.org/v2/everything?apiKey=${apiKey}&q=${searchParam}&language=${lang}&pageSize=${pageSize}&page=${pagination.page}`

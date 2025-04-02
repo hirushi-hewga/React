@@ -8,7 +8,7 @@ import useAction from '../../hooks/useAction'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google'
 
 const RegisterPage = () => {
-    const clientId = "863726561080-av2c4tuo1ano7k97m4pvhd5vsg9kfljo.apps.googleusercontent.com"
+    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
     const navigate = useNavigate()
     const {register, googleRegister} = useAction()
