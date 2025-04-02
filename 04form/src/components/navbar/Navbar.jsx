@@ -13,7 +13,7 @@ const Navbar = () => {
     const {theme} = useSelector(state => state.theme)
     const {logout, setTheme} = useAction()
     const navigate = useNavigate()
-    const themeStyles = useTheme()
+    const muiTheme = useTheme()
     
     const handleOpenUserMenu = (event) => { setAnchorElUser(event.currentTarget) }
     const handleCloseUserMenu = () => { setAnchorElUser(null) }
@@ -32,7 +32,7 @@ const Navbar = () => {
         textDecoration: "none",
         fontWeight: "bold",
         fontSize: "large",
-        color: themeStyles.palette.text.main
+        color: muiTheme.palette.text.main
     }
 
     function isValidUrl(url) {
@@ -54,10 +54,10 @@ const Navbar = () => {
                         <Link style={navlinksStyle} to="/admin">AdminPanel</Link>
                     )}
                 </Box>
-                <Box onClick={() => {}} sx={{flexGrow: 1, display: "flex", justifyContent: "right"}}>
-                    {theme === "dark" ? <IconButton onClick={setTheme("light")}>
+                <Box sx={{flexGrow: 1, display: "flex", justifyContent: "right"}}>
+                    {theme === "dark" ? <IconButton sx={{color: muiTheme.palette.text.main}} onClick={setTheme("light")}>
                         <LightModeIcon/>
-                    </IconButton> : <IconButton onClick={setTheme("dark")}>
+                    </IconButton> : <IconButton sx={{color: muiTheme.palette.text.main}} onClick={setTheme("dark")}>
                         <DarkModeIcon/>
                     </IconButton>}
                 </Box>   

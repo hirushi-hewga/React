@@ -73,7 +73,7 @@ function App() {
   }, [])
 
   return (
-    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
       <Routes>
         <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage /> } />
