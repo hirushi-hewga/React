@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\04form",
+    "\\04form\\src",
+    "\\04form\\src\\pages",
+    "\\04form\\src\\pages\\manufacturesPage",
+    "\\04form\\src\\store",
+    "\\04form\\src\\store\\reducers",
+    "\\04form\\src\\store\\reducers\\userReducer"
+  ],
+  "SelectedNode": "\\04form\\src\\pages\\manufacturesPage\\ManufacturesPage.jsx",
+  "PreviewInSolutionExplorer": false
+}

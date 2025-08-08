@@ -49,7 +49,7 @@ const ShowUsersPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {users?.map(({id, firstName, lastName, email, role}) => (
+                        {users?.map(({id, firstName, lastName, email, roles}) => (
                             <TableRow
                                 key={id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -60,7 +60,9 @@ const ShowUsersPage = () => {
                                 <TableCell align="center">{firstName}</TableCell>
                                 <TableCell align="center">{lastName}</TableCell>
                                 <TableCell align="center">{email}</TableCell>
-                                <TableCell align="center">{role}</TableCell>
+                                <TableCell align="center">
+                                    {roles.map(r => r.name).join(", ")}
+                                </TableCell>
                                 <TableCell align="right">
                                     <Link to={`user/${id}`}>
                                         <EditIcon />

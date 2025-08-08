@@ -1,5 +1,6 @@
 import EditUserPage from './pages/admin/users/editUserPage/EditUserPage'
 import EditRolePage from './pages/admin/roles/editRolePage/EditRolePage'
+import ManufacturesPage from './pages/manufacturesPage/ManufacturesPage'
 import AdminPanelLayout from './components/layouts/AdminPanelLayout'
 import DefaultLayout from './components/layouts/DefaultLayout'
 import ShowUsersPage from './pages/admin/users/ShowUsersPage'
@@ -7,16 +8,16 @@ import ShowRolesPage from './pages/admin/roles/ShowRolesPage'
 import AddUsersPage from './pages/registerPage/AddUsersPage'
 import NotFoundPage from './pages/notFoundPage/NotFoundPage'
 import ProfilePage from './pages/profilePage/ProfilePage'
+import { darkTheme, lightTheme } from './theming/themes'
 import LoginPage from './pages/loginPage/LoginPage'
 import AboutPage from './pages/aboutPage/AboutPage'
 import MainPage from './pages/mainPage/MainPage'
 import {Routes, Route} from 'react-router-dom'
+import {ThemeProvider} from '@mui/material'
 import useAction from './hooks/useAction'
 import {useSelector} from 'react-redux'
 import {useEffect} from 'react'
 import './App.css';
-import {ThemeProvider} from '@mui/material'
-import { darkTheme, lightTheme } from './theming/themes'
 
 function App() {
   const {isAuth, user} = useSelector(state => state.auth)
@@ -77,7 +78,8 @@ function App() {
       <Routes>
         <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage /> } />
-          <Route path="about" element={ <AboutPage /> } />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="manufacture" element={<ManufacturesPage />} />
           { !isAuth ? (
             <>
               <Route path="register" element={ <AddUsersPage/> } />

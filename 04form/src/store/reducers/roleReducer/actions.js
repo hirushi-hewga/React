@@ -1,8 +1,14 @@
-export const loadRoles = () => {
-    const localData = localStorage.getItem("roles")
-    if (localData) {
-        return {type: "ROLES_LOAD", payload: JSON.parse(localData)}
+import axios from "axios"
+
+export const loadRoles = () => async (dispatch) => {
+    const responce = await axios.get("https://localhost:7112/api/role/list")
+
+    if (responce.status === 200) {
+        console.log(responce.data)
+        return dispatch({type: "ROLES_LOAD", payload: responce.data})
     }
+
+    return dispatch({type: "ERROR", payload: "roles not found"})
 }
 
 export const createRole = (role) => {

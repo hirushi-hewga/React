@@ -1,8 +1,18 @@
-export const loadUsers = () => {
-    const localData = localStorage.getItem("users")
-    if (localData) {
-        return {type: "USERS_LOAD", payload: JSON.parse(localData)}
+import axios from "axios"
+
+export const loadUsers = () => async (dispatch) => {
+    //const localData = localStorage.getItem("users")
+    //if (localData) {
+    //    return {type: "USERS_LOAD", payload: JSON.parse(localData)}
+    //}
+
+    const responce = await axios.get("https://localhost:7112/api/user/list")
+
+    if (responce.status === 200) { 
+        return dispatch({type: "USERS_LOAD", payload: responce.data})
     }
+
+    return dispatch({type: "ERROR", payload: "users not found"})
 }
 
 export const createUser = (user) => {
