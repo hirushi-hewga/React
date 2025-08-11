@@ -79,7 +79,7 @@ function App() {
         <Route path="/" element={ <DefaultLayout /> }>
           <Route index element={ <MainPage /> } />
           <Route path="about" element={<AboutPage />} />
-          <Route path="manufacture" element={<ManufacturesPage />} />
+          <Route path="manufactures" element={<ManufacturesPage />} />
           { !isAuth ? (
             <>
               <Route path="register" element={ <AddUsersPage/> } />
