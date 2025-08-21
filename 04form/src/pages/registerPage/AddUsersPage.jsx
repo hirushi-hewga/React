@@ -14,6 +14,7 @@ const RegisterPage = () => {
     const {register, googleRegister} = useAction()
 
     const formHandler = (values) => {
+        delete values.confirmPassword
         register(values)
         navigate("/")
     }
@@ -29,14 +30,13 @@ const RegisterPage = () => {
     }
 
     const initValues = {
-        id: 0,
         firstName: "",
         lastName: "",
         email: "",
+        userName: "",
         password: "",
         confirmPassword: "",
-        image: "",
-        role: "user"
+        image: ""
     }
 
     const yupValidationScheme = Yup.object({
@@ -58,6 +58,7 @@ const RegisterPage = () => {
             <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
                 <Box className="form-control">
                     <TextField
+                      type="text"
                       id="firstName"
                       name="firstName"
                       label="First name"
@@ -73,6 +74,7 @@ const RegisterPage = () => {
                 ) : null}
                 <Box className="form-control">
                     <TextField
+                      type="text"
                       id="lastName"
                       name="lastName"
                       label="Last name"
@@ -88,6 +90,7 @@ const RegisterPage = () => {
                 ) : null}
                 <Box className="form-control">
                     <TextField
+                      type="email"
                       id="email"
                       name="email"
                       label="Email"
@@ -100,6 +103,22 @@ const RegisterPage = () => {
                 </Box>
                 {formik.touched.email && formik.errors.email ? (
                     <FormError text={formik.errors.email} />
+                ) : null}
+                <Box className="form-control">
+                    <TextField
+                      type="text"
+                      id="userName"
+                      name="userName"
+                      label="User name"
+                      variant="filled"
+                      fullWidth
+                      onChange={formik.handleChange}
+                      value={formik.values.userName}
+                      onBlur={formik.handleBlur}
+                    />
+                </Box>
+                {formik.touched.userName && formik.errors.userName ? (
+                    <FormError text={formik.errors.userName} />
                 ) : null}
                 <Box className="form-control">
                     <TextField
@@ -133,18 +152,6 @@ const RegisterPage = () => {
                 {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
                     <FormError text={formik.errors.confirmPassword} />
                 ) : null}
-                <Box className="form-control">
-                    <TextField
-                      id="image"
-                      name="image"
-                      label="Image"
-                      variant="filled"
-                      fullWidth
-                      onChange={formik.handleChange}
-                      value={formik.values.image}
-                      onBlur={formik.handleBlur}
-                    />
-                </Box>
 
                 <Box className="form-control">
                     <Button color="secondary" type='submit' variant='contained' fullWidth>Register</Button>

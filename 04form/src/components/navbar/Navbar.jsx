@@ -51,7 +51,8 @@ const Navbar = () => {
                     <Link style={navlinksStyle} to="/">MainPage</Link>
                     <Link style={navlinksStyle} to="/about">About</Link>
                     <Link style={navlinksStyle} to="/manufactures">Manufactures</Link>
-                    {( isAuth && user.role === "admin" ) && (
+                    <Link style={navlinksStyle} to="/cars">Cars</Link>
+                    {( isAuth && user.role.includes("admin") ) && (
                         <Link style={navlinksStyle} to="/admin">AdminPanel</Link>
                     )}
                 </Box>

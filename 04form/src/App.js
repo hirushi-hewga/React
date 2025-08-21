@@ -12,6 +12,7 @@ import { darkTheme, lightTheme } from './theming/themes'
 import LoginPage from './pages/loginPage/LoginPage'
 import AboutPage from './pages/aboutPage/AboutPage'
 import MainPage from './pages/mainPage/MainPage'
+import CarsPage from './pages/carsPage/CarsPage'
 import {Routes, Route} from 'react-router-dom'
 import {ThemeProvider} from '@mui/material'
 import useAction from './hooks/useAction'
@@ -22,7 +23,7 @@ import './App.css';
 function App() {
   const {isAuth, user} = useSelector(state => state.auth)
   const {theme} = useSelector(state => state.theme)
-  const {login} = useAction()
+  const {login, loginByToken} = useAction()
 
   // load role list
   useEffect(() => {
@@ -67,9 +68,9 @@ function App() {
 
   // user login
   useEffect(() => {
-    const user = localStorage.getItem("user")
-    if (user) {
-      login(JSON.parse(user))
+    const token = localStorage.getItem("aut")
+    if (token) {
+      loginByToken(token)
     }
   }, [])
 
@@ -80,6 +81,7 @@ function App() {
           <Route index element={ <MainPage /> } />
           <Route path="about" element={<AboutPage />} />
           <Route path="manufactures" element={<ManufacturesPage />} />
+          <Route path="cars" element={<CarsPage />} />
           { !isAuth ? (
             <>
               <Route path="register" element={ <AddUsersPage/> } />
@@ -95,7 +97,7 @@ function App() {
 
         {/* /////////////////////////////////////////////////////// */}
 
-        {( isAuth && user.role === "admin" ) && (
+        {( isAuth && user.role.includes("admin") ) && (
           <Route path="admin" element={<AdminPanelLayout />}>
             <Route path='users' >
               <Route index element={ <ShowUsersPage /> } />
