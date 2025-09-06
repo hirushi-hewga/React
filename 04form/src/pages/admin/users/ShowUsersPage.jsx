@@ -1,33 +1,48 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useAction from '../../../hooks/useAction';
-import ConfirmModal from '../../../components/modal/ConfirmModal';
+import Grid from "@mui/material/Grid2";
+import UserCard from "../../cards/UserCard";
+import UserCreateModal from "../../../components/modal/UserCreateModal";
 
 const ShowUsersPage = () => {
     const {users, isLoaded} = useSelector(state => state.user)
-    const {loadUsers, deleteUser} = useAction()
+    const {loadUsers, createUser} = useAction()
 
-    const [userId, setUserId] = useState(null)
-    const [modalOpen, setModalOpen] = useState(false)
+    const [createModalOpen, setCreateModalOpen] = useState(false)
     
         useEffect(() => {
             if (!isLoaded) {
                 loadUsers()
             }
         }, [])
-    
-    const showUsers = () => {
-        if (users) {
-            document.getElementById("usersTableContainer").hidden = false
-        }
-    }
 
     return (
         <>
+            <Box>
+                <h1>Users</h1>
+            </Box>
+                <Button variant='contained' onClick={() => setCreateModalOpen(true)}>Create User</Button>
+            <Grid container spacing={2}>
+                {users.map((user) => (
+                    <Grid key={user.id} size={6}>
+                        <UserCard user={user}/>
+                    </Grid>
+                ))}
+            </Grid>
+            <UserCreateModal
+                title="Create user"
+                open={createModalOpen}
+                handleClose={() => setCreateModalOpen(false)}
+                action={createUser} />
+        </>
+
+
+
+
+        /*<>
             <Box>
                 <h1>Users</h1>
             </Box>
@@ -85,7 +100,7 @@ const ShowUsersPage = () => {
                 open={modalOpen} 
                 handleClose={() => setModalOpen(false)} 
                 action={() => deleteUser(userId)} />
-        </>
+        </>*/
     )
 }
 

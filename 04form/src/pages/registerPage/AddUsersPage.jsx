@@ -20,8 +20,8 @@ const RegisterPage = () => {
     }
 
     //google register
-    const googleRegisterHandler = (responce) => {
-        googleRegister(responce.credential)
+    const googleRegisterHandler = (response) => {
+        googleRegister(response.credential)
         navigate("/")
     }
 

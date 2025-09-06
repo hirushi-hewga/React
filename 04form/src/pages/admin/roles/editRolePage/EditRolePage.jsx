@@ -42,7 +42,6 @@ const EditRolePage = ({ isEdit = false }) => {
     }
 
     const initValues = {
-        id: 0,
         name: ""
     }
 
@@ -58,6 +57,13 @@ const EditRolePage = ({ isEdit = false }) => {
 
     return (
         <>
+
+        </>
+
+
+
+
+        /*<>
             <Box component="form" onSubmit={formik.handleSubmit} className='form-container'>
                 <Box sx={{textAlign: "center"}}>
                     <h1>{ isEdit ? "Edit role" : "Create role" }</h1>
@@ -83,7 +89,7 @@ const EditRolePage = ({ isEdit = false }) => {
                     <Button type='submit' variant='contained' fullWidth>{ isEdit ? "Save" : "Create" }</Button>
                 </Box>
             </Box>
-        </>
+        </>*/
     )
 }
 

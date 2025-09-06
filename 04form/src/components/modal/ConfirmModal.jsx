@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -10,7 +9,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: 'wheat',
+  bgcolor: 'white',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4

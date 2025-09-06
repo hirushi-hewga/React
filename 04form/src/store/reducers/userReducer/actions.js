@@ -1,51 +1,50 @@
-import axios from "axios"
+import http from "../../../http_common";
 
 export const loadUsers = () => async (dispatch) => {
-    //const localData = localStorage.getItem("users")
-    //if (localData) {
-    //    return {type: "USERS_LOAD", payload: JSON.parse(localData)}
-    //}
+    dispatch({type: "START_LOADING"})
+    const response = await http.get("user")
 
-    const responce = await axios.get("https://localhost:7112/api/user/list")
-
-    if (responce.status === 200) { 
-        return dispatch({type: "USERS_LOAD", payload: responce.data})
+    if (response.status === 200) {
+        const {payload} = response.data
+        dispatch({type: "USERS_LOAD", payload: payload})
+        return dispatch({type: "STOP_LOADING"})
     }
 
-    return dispatch({type: "ERROR", payload: "users not found"})
+    return dispatch({type: "ERROR"})
 }
 
-export const createUser = (user) => {
-    user.id = 1
-    const localData = localStorage.getItem("users")
-    let users = []
-    if (localData) {
-        users = JSON.parse(localData)
-        user.id = users[users.length - 1].id + 1
+export const createUser = (user) => async (dispatch) => {
+    dispatch({type: "START_LOADING"})
+    const response = await http.post("user", user)
+
+    if (response.status === 200) {
+        dispatch({type: "USER_CREATE"})
+        return dispatch({type: "STOP_LOADING"})
     }
-    users.push(user)
-    localStorage.setItem("users", JSON.stringify(users))
-    return {type: "USER_CREATE", payload: user}
+
+    return dispatch({type: "ERROR"})
 }
 
-export const updateUser = (user) => {
-    const users = JSON.parse(localStorage.getItem("users"))
-    const index = users.findIndex(u => u.id == user.id)
-    if (index >= 0) {
-        users[index] = {...user}
-        localStorage.setItem("users", JSON.stringify(users))
-        return {type: "USER_UPDATE", payload: users}
-    } else {
-        return {type: "ERROR", payload: "user not found"}
+export const updateUser = (user) => async (dispatch) => {
+    dispatch({type: "START_LOADING"})
+    const response = await http.put("user", user)
+
+    if (response.status === 200) {
+        dispatch({type: "USER_UPDATE"})
+        return dispatch({type: "STOP_LOADING"})
     }
+
+    return dispatch({type: "ERROR"})
 }
 
-export const deleteUser = (id) => {
-    const localData = localStorage.getItem("users")
-    if (localData) {
-        let users = JSON.parse(localData)
-        users = users.filter(u => u.id !== id)
-        localStorage.setItem("users", JSON.stringify(users))
-        return {type: "USER_DELETE", payload: users}
+export const deleteUser = (id) => async (dispatch) => {
+    dispatch({type: "START_LOADING"})
+    const response = await http.delete(`user?id=${id}`)
+
+    if (response.status === 200) {
+        dispatch({type: "USER_DELETE"})
+        return dispatch({type: "STOP_LOADING"})
     }
+
+    return dispatch({type: "ERROR"})
 }

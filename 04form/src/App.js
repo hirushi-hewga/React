@@ -1,5 +1,3 @@
-import EditUserPage from './pages/admin/users/editUserPage/EditUserPage'
-import EditRolePage from './pages/admin/roles/editRolePage/EditRolePage'
 import ManufacturesPage from './pages/manufacturesPage/ManufacturesPage'
 import AdminPanelLayout from './components/layouts/AdminPanelLayout'
 import DefaultLayout from './components/layouts/DefaultLayout'
@@ -23,7 +21,7 @@ import './App.css';
 function App() {
   const {isAuth, user} = useSelector(state => state.auth)
   const {theme} = useSelector(state => state.theme)
-  const {login, loginByToken} = useAction()
+  const {loginByToken} = useAction()
 
   // load role list
   useEffect(() => {
@@ -101,13 +99,9 @@ function App() {
           <Route path="admin" element={<AdminPanelLayout />}>
             <Route path='users' >
               <Route index element={ <ShowUsersPage /> } />
-              <Route path='user' element={ <EditUserPage /> } />
-              <Route path='user/:id' element={ <EditUserPage isEdit={true} /> } />
             </Route>
             <Route path='roles' >
               <Route index element={ <ShowRolesPage /> } />
-              <Route path='role' element={ <EditRolePage /> } />
-              <Route path='role/:id' element={ <EditRolePage isEdit={true} /> } />
             </Route>
           </Route>
         )}

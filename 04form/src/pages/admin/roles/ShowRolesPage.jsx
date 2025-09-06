@@ -1,18 +1,16 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { Button, Box } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useAction from '../../../hooks/useAction';
-import ConfirmModal from '../../../components/modal/ConfirmModal';
+import Grid from "@mui/material/Grid2";
+import RoleCard from "../../cards/RoleCard";
+import RoleCreateModal from "../../../components/modal/RoleCreateModal";
 
 const ShowRolesPage = () => {
     const {roles, isLoaded} = useSelector(state => state.role)
-    const {loadRoles, deleteRole} = useAction()
+    const {loadRoles, createRole} = useAction()
 
-    const [roleId, setRoleId] = useState(null)
-    const [modalOpen, setModalOpen] = useState(false)
+    const [createModalOpen, setCreateModalOpen] = useState(false)
 
     useEffect(() => {
         if (!isLoaded) {
@@ -22,6 +20,34 @@ const ShowRolesPage = () => {
 
     return (
         <>
+            <Box>
+                <h1>Roles</h1>
+            </Box>
+            <Button variant='contained' onClick={() => setCreateModalOpen(true)}>Create Role</Button>
+            <Grid container spacing={2}>
+                {roles.map((role) => (
+                    <Grid key={role.id} size={6}>
+                        <RoleCard role={role}/>
+                    </Grid>
+                ))}
+            </Grid>
+            <RoleCreateModal
+                title="Create role"
+                open={createModalOpen}
+                handleClose={() => setCreateModalOpen(false)}
+                action={createRole} />
+        </>
+
+
+
+
+
+
+
+
+
+
+        /*<>
             <Box>
                 <h1>Roles</h1>
             </Box>
@@ -73,13 +99,13 @@ const ShowRolesPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ConfirmModal 
-                title="Delete role" 
-                text="Are you sure?" 
-                open={modalOpen} 
-                handleClose={() => setModalOpen(false)} 
+            <ConfirmModal
+                title="Delete role"
+                text="Are you sure?"
+                open={modalOpen}
+                handleClose={() => setModalOpen(false)}
                 action={() => deleteRole(roleId)} />
-        </>
+        </>*/
     )
 }
 

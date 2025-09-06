@@ -9,11 +9,11 @@ const userReducer = (state = userState, action) => {
         case "USERS_LOAD":
             return {...state, users: action.payload, isLoaded: true, count: action.payload.length}
         case "USER_CREATE":
-            return {...state, users: [...state.users, action.payload], count: state.count + 1}
+            return {...state, isLoaded: false}
         case "USER_UPDATE":
-            return {...state, users: action.payload}
+            return {...state, isLoaded: false}
         case "USER_DELETE":
-            return {...state, users: action.payload, count: state.count - 1}
+            return {...state, isLoaded: false}
         default:
             return state
     }

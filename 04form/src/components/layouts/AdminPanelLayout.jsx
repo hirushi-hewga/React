@@ -3,8 +3,12 @@ import Footer from '../footer/Footer'
 import Grid from '@mui/material/Grid2'
 import { Outlet } from 'react-router-dom'
 import AdminPanelMenu from '../menu/AdminPanelMenu'
+import {useSelector} from "react-redux";
+import {Box, CircularProgress} from "@mui/material";
 
 const AdminPanelLayout = () => {
+    const {isLoading} = useSelector(state => state.common)
+
     return (
         <>
             <Navbar />
@@ -13,7 +17,15 @@ const AdminPanelLayout = () => {
                     <AdminPanelMenu/>
                 </Grid>
                 <Grid size={8}>
-                    <Outlet />
+                    {
+                        isLoading ? (
+                            <Box display="flex" justifyContent="center" margin={5}>
+                                <CircularProgress size="5rem" />
+                            </Box>
+                        ) : (
+                            <Outlet />
+                        )
+                    }
                 </Grid>
                 <Grid size={2}></Grid>
             </Grid>

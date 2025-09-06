@@ -1,9 +1,9 @@
 import {jwtDecode} from 'jwt-decode'
 import axios from "axios"
+import http from "../../../http_common";
 
 export const login = (values) => async (dispatch) => {
-    const url = process.env.REACT_APP_API_BASE_URL + "account/login"
-    const response = await axios.post(url, values)
+    const response = await http.post("account/login", {login: values.email, password: values.password})
     if (response.status !== 200)
         return dispatch({type: "ERROR"})
 
@@ -14,8 +14,8 @@ export const login = (values) => async (dispatch) => {
 }
 
 export const loginByToken = (token) => async (dispatch) => {
-    localStorage.setItem("aut", jwtToken)
-    const user = jwtDecode(jwtToken)
+    localStorage.setItem("aut", token)
+    const user = jwtDecode(token)
     delete user.iss
     delete user.aud
     delete user.exp
@@ -25,7 +25,7 @@ export const loginByToken = (token) => async (dispatch) => {
 }
 
 export const register = (values) => async (dispatch) => {
-    const url = process.env.REACT_APP_API_BASE_URL + "account/register"
+    const url = process.env.REACT_APP_BASE_URL + "account/register"
     const response = await axios.post(url, values)
     if (response.status !== 200)
         return dispatch({type: "ERROR"})
