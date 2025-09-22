@@ -17,11 +17,24 @@ import useAction from './hooks/useAction'
 import {useSelector} from 'react-redux'
 import {useEffect} from 'react'
 import './App.css';
+import {setTheme} from "./store/reducers/themeReducer/actions";
+import {refreshTokens} from "./store/reducers/authReducer/actions";
 
 function App() {
   const {isAuth, user} = useSelector(state => state.auth)
   const {theme} = useSelector(state => state.theme)
-  const {loginByToken} = useAction()
+  const {loginByToken, setTheme, refreshTokens} = useAction()
+
+  const getAccessToken = () => {
+      const cookie = document.cookie.split(';')
+      for (const item in cookie) {
+          const [key, value] = item.split('=')
+          if (key === "at") {
+              return value
+          }
+      }
+      return null
+  }
 
   // load role list
   useEffect(() => {
@@ -66,9 +79,17 @@ function App() {
 
   // user login
   useEffect(() => {
-    const token = localStorage.getItem("aut")
+    const token = getAccessToken()
     if (token) {
-      loginByToken(token)
+        loginByToken(token)
+    } else {
+        refreshTokens()
+    }
+
+    //theme
+    const localTheme = localStorage.getItem("theme")
+    if (localTheme) {
+        setTheme(localTheme)
     }
   }, [])
 

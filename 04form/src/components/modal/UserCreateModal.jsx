@@ -56,11 +56,17 @@ const UserCreateModal = ({action, open, handleClose, title, isEdit=false, user})
     }
 
     const yupValidationScheme = Yup.object({
-        userName: Yup.string().required("обов'язково").max(50, "Максимум 50 символів"),
-        firstName: Yup.string().required("обов'язково").max(50, "Максимум 50 символів"),
-        lastName: Yup.string().required("обов'язково").max(50, "Максимум 50 символів"),
+        userName: Yup.string().required("обов'язково").max(20, "Максимум 20 символів"),
+        firstName: Yup.string().required("обов'язково").max(20, "Максимум 20 символів"),
+        lastName: Yup.string().required("обов'язково").max(20, "Максимум 20 символів"),
         email: Yup.string().required("Пошта обов'язкова").email("Невірний формат пошти"),
-        password: Yup.string().required("Пароль обов'язковий").min(8, "Пароль повинен містити не менше 8 символів")
+        password: Yup.string().when(`${isEdit}`, {
+            is: false,
+            then: (schema) => schema.required('Пароль обов’язковий').min(8, 'Пароль повинен містити не менше 8 символів'),
+            otherwise: (schema) => schema.notRequired(),
+        }),
+        roles: Yup.array().min(1, 'Виберіть хоча б одну роль').required('Ролі обов’язкові'),
+        image: Yup.mixed().notRequired().test('fileType', 'Тільки зображення дозволені', (value) => !value || value.type?.startsWith('image/'))
     })
 
     const formik = useFormik({
@@ -176,6 +182,9 @@ const UserCreateModal = ({action, open, handleClose, title, isEdit=false, user})
                             onBlur={formik.handleBlur}
                         />
                     </Box>
+                    {!isEdit && formik.touched.image && formik.errors.image ? (
+                        <FormError text={formik.errors.image} />
+                    ) : null}
 
 
                     <Box className="form-control">
@@ -194,6 +203,9 @@ const UserCreateModal = ({action, open, handleClose, title, isEdit=false, user})
                             ))}
                         </FormGroup>
                     </Box>
+                    {!isEdit && formik.touched.roles && formik.errors.roles ? (
+                        <FormError text={formik.errors.roles} />
+                    ) : null}
 
 
                     <Box className="form-control">
