@@ -16,8 +16,8 @@ export const login = (values) => async (dispatch) => {
 
 export const refreshTokens = () => async (dispatch) => {
     const body = {
-        access_token: localStorage.getItem("at"),
-        refresh_token: localStorage.getItem("rt")
+        accessToken: localStorage.getItem("at"),
+        refreshToken: localStorage.getItem("rt")
     }
     const response = await http.post("account/refresh", body)
     if (response.status !== 200)
@@ -80,24 +80,24 @@ export const logout = () => {
 //    }
 //}
 
-export const googleRegister = (jwtToken) => {
-    const payload = jwtDecode(jwtToken)
-    const localData = localStorage.getItem("users")
-    let users = []
-    const user = {
-        id: 1,
-        firstName: payload.given_name,
-        lastName: payload.family_name,
-        email: payload.email,
-        image: payload.picture,
-        role: "user"
-    }
-    if (localData) {
-        users = JSON.parse(localData)
-        user.id = users[users.length - 1].id + 1
-    }
-    users.push(user)
-    localStorage.setItem("users", JSON.stringify(users))
-    localStorage.setItem("user", JSON.stringify(user))
-    return {type: "USER_REGISTER", payload: user}
-}
+//export const googleRegister = (jwtToken) => {
+//    const payload = jwtDecode(jwtToken)
+//    const localData = localStorage.getItem("users")
+//    let users = []
+//    const user = {
+//        id: 1,
+//        firstName: payload.given_name,
+//        lastName: payload.family_name,
+//        email: payload.email,
+//        image: payload.picture,
+//        role: "user"
+//    }
+//    if (localData) {
+//        users = JSON.parse(localData)
+//        user.id = users[users.length - 1].id + 1
+//    }
+//    users.push(user)
+//    localStorage.setItem("users", JSON.stringify(users))
+//    localStorage.setItem("user", JSON.stringify(user))
+//    return {type: "USER_REGISTER", payload: user}
+//}

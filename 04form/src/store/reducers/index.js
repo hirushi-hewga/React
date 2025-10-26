@@ -4,6 +4,7 @@ import userReducer from "./userReducer/userReducer"
 import roleReducer from "./roleReducer/roleReducer"
 import themeReducer from "./themeReducer/themeReducer"
 import commonReducer from "./commonReducer/commonReducer";
+import carReducer from "./carReducer/carReducer";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
     role: roleReducer,
     theme: themeReducer,
     common: commonReducer,
+    car: carReducer
 })

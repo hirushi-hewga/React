@@ -27,7 +27,7 @@ function App() {
 
   const getAccessToken = () => {
       const cookie = document.cookie.split(';')
-      for (const item in cookie) {
+      for (const item of cookie) {
           const [key, value] = item.split('=')
           if (key === "at") {
               return value
@@ -35,47 +35,6 @@ function App() {
       }
       return null
   }
-
-  // load role list
-  useEffect(() => {
-    const localData = localStorage.getItem("roles")
-    if (!localData) {
-      localStorage.setItem("roles", JSON.stringify([
-        {
-          id: 1,
-          name: "admin"
-        },
-        {
-          id: 2,
-          name: "user"
-        }
-      ]))
-    }
-  })
-  
-  // load user list
-  useEffect(() => {
-    const localData = localStorage.getItem("users")
-    if (!localData) {
-      localStorage.setItem("users", JSON.stringify([{
-        id:1,
-        firstName:"user",
-        lastName:"user",
-        email:"user@gmail.com",
-        password:"qwerty-1",
-        role:"user",
-        image:"https://i.pinimg.com/736x/51/d4/b1/51d4b10f6db71fc3b6f2a4806f30a299.jpg"
-      },{
-        id:2,
-        firstName:"admin",
-        lastName:"admin",
-        email:"admin@gmail.com",
-        password:"qwerty-1",
-        role:"admin",
-        image:"https://i.pinimg.com/736x/51/d4/b1/51d4b10f6db71fc3b6f2a4806f30a299.jpg"
-      }]))
-    }
-  }, [])
 
   // user login
   useEffect(() => {
